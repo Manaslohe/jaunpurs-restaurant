@@ -51,7 +51,7 @@ const getCategorySectionId = (label) => {
 function Hero({ onCategoryClick }) {
 	return (
 		<section
-			className="relative w-full min-h-[80vh] md:min-h-[100vh] flex items-start justify-start overflow-hidden font-inter"
+			className="relative w-full min-h-[85vh] md:min-h-[100vh] flex items-start justify-start overflow-hidden font-inter"
 			style={{ position: 'relative' }}
 		>
 			{/* Header */}
@@ -144,7 +144,7 @@ function Hero({ onCategoryClick }) {
 			<img
 			   src="/Hero/thali.png"
 			   alt="Thali"
-			   className="absolute left-60 bottom-30 z-30 h-[40vh] w-auto object-contain"
+			   className="absolute left-60 bottom-40 md:bottom-30 z-30 h-[40vh] w-auto object-contain"
 			/>
 			{/* Thali2 Image beside thali.png, desktop only */}
 			<img
