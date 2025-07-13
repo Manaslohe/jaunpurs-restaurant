@@ -222,7 +222,7 @@ const Categories = forwardRef((props, ref) => {
                       <h3 className="text-xl md:text-2xl font-medium mb-2 hidden md:block">
                         {item.name}
                       </h3>
-                      <p className="text-sm md:text-[0.9vw] text-white/90 leading-relaxed hidden md:block italic font-light">
+                      <p className="text-sm md:text-[0.7vw] text-white/90 leading-relaxed hidden md:block italic font-light">
                         {item.description}
                       </p>
                     </div>

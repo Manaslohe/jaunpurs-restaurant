@@ -175,7 +175,7 @@ function Hero({ onCategoryClick }) {
 				))}
 			</div>
 			{/* Swiggy & Zomato Buttons at Bottom */}
-			<div className="absolute bottom-20 z-40 flex gap-4 left-1/2 -translate-x-1/2 md:left-8 md:translate-x-0 justify-center md:justify-start w-full md:w-auto">
+			<div className="absolute bottom-[6vh] z-40 flex gap-4 left-1/2 -translate-x-1/2 md:left-8 md:translate-x-0 justify-center md:justify-start w-full md:w-auto">
 				<button className="p-0 bg-transparent hover:scale-105 transition">
 					<img
 						src="/Hero/swiggy.png"
