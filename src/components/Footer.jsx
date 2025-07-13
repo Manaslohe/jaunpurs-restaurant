@@ -3,7 +3,7 @@ import React, { useState } from "react";
 const socialLinks = [
   { href: "https://instagram.com", icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" /><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" /><line x1="17.5" x2="17.51" y1="6.5" y2="6.5" /></svg> },
   { href: "https://facebook.com", icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H6v4h4v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z" /></svg> },
-  { href: "#", icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" /><path d="M15 9l-6 6M9 9l6 6" /></svg> },
+  { href: "https://x.com", icon: <img src="/x.png" alt="X" className="w-6 h-6 object-contain" /> },
   { href: "https://youtube.com", icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24"><rect width="20" height="20" x="2" y="2" rx="5" /><polygon points="10 8 16 12 10 16 10 8" /></svg> },
 ];
 
@@ -96,7 +96,7 @@ const Footer = () => {
         <div className="text-sm mb-2 md:mb-0">Crafted with excellence by FrameX</div>
         <div className="flex gap-3">
           {socialLinks.map((link, i) => (
-            <a key={i} href={link.href} target="_blank" rel="noopener noreferrer" className="p-1 rounded border-2 border-black hover:bg-black hover:text-white transition">
+            <a key={i} href={link.href} target="_blank" rel="noopener noreferrer" className="p-1 rounded border-2 border-black bg-black text-white hover:bg-white hover:text-black transition">
               {link.icon}
             </a>
           ))}

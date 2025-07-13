@@ -85,7 +85,7 @@ function LandingPage() {
             <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 0 0-5 5v3H6v4h4v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
           </a>
           <a href="https://x.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-orange-400 transition" style={{fontSize: '2rem'}} aria-label="X">
-            <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M4 4l16 16M20 4L4 20"/></svg>
+            <img src="/x.png" alt="X" style={{ width: 28, height: 28, objectFit: 'contain' }} />
           </a>
           <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" className="text-white hover:text-orange-400 transition" style={{fontSize: '2rem'}} aria-label="YouTube">
             <svg width="28" height="28" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="3"/><polygon points="10 9 16 12 10 15 10 9"/></svg>
