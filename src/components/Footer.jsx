@@ -26,8 +26,8 @@ const Footer = () => {
       )}
       <div className="max-w-7xl mx-auto px-4 py-6 flex flex-col md:flex-row md:items-start gap-8 md:gap-0 relative">
         {/* Logo and tagline */}
-        <div className="md:w-1/4 flex flex-col items-start mb-4 md:mb-0">
-          <img src="/logow.png" alt="Jaunpurs Logo" className="w-[18vw] h-auto" />
+        <div className="md:w-1/4 flex flex-col items-start mb-0 md:mb-0">
+          <img src="/logow.png" alt="Jaunpurs Logo" className="w-[50vw] md:w-[18vw] h-auto" />
         </div>
         {/* Divider 1 */}
         <div className="hidden md:block absolute left-1/4 top-5 h-full" aria-hidden="true"
@@ -39,7 +39,7 @@ const Footer = () => {
         {/* Order platforms */}
         <div className="md:w-1/4 flex flex-col items-start pl-0 md:pl-6">
           <div className="mb-2 text-base font-medium">You can order from this platform</div>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-row gap-2">
             <a href="https://swiggy.com" target="_blank" rel="noopener noreferrer" className="w-32">
               <img src="/Hero/swiggy.png" alt="Swiggy" className="w-full h-8 object-contain" />
             </a>
@@ -57,8 +57,8 @@ const Footer = () => {
         />
         {/* Contact */}
         <div className="md:w-1/4 flex flex-col items-start pl-0 md:pl-6">
-          <div className="mb-2 text-base font-medium">Contact</div>
-          <div className="text-sm flex items-center gap-2">
+          <div className="mb-2 text-[3.5vw] md:text-base font-medium">Contact</div>
+          <div className="text-[4vw] md:text-sm flex items-center gap-2">
             8767092368
             <button
               onClick={handleCopy}
