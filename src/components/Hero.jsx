@@ -142,9 +142,15 @@ function Hero({ onCategoryClick }) {
 			</div>
 			{/* Thali Image below main content and above buttons */}
 			<img
-				src="/Hero/thali.png"
-				alt="Thali"
-				className="absolute left-60 bottom-30 z-30 h-[40vh] w-auto object-contain"
+			   src="/Hero/thali.png"
+			   alt="Thali"
+			   className="absolute left-60 bottom-30 z-30 h-[40vh] w-auto object-contain"
+			/>
+			{/* Thali2 Image beside thali.png, desktop only */}
+			<img
+			   src="/Hero/thali2.png"
+			   alt="Thali 2"
+			   className="hidden md:block absolute left-[41vw] bottom-8 z-30 h-[30vw] w-auto object-contain"
 			/>
 			{/* Sidebar for categories */}
 			<div className="hidden md:flex flex-col absolute right-0 top-36 gap-4 z-20">
@@ -186,7 +192,7 @@ function Hero({ onCategoryClick }) {
 				</button>
 			</div>
 			{/* Bottom hashtag bar */}
-			<div className="absolute bottom-0 left-0 w-full bg-orange-400 text-white text-[0.9vw] py-1 px-2 text-center z-30 overflow-hidden">
+			<div className="absolute bottom-0 left-0 w-full bg-orange-400 text-white text-[3vw] md:text-[1vw] py-1 px-2 text-center z-30 overflow-hidden">
 				<Marquee gradient={false} speed={40} pauseOnHover={true} pauseOnClick={true} style={{ width: '100%' }}>
 					<span className="whitespace-nowrap">
 						#Sweets #Namkeen #Meals #Sweets #Namkeen #Meals #Sweets #Namkeen #Meals #Sweets #Namkeen #Meals #Sweets #Namkeen #Meals #Sweets #Namkeen #Meals #Sweets #Namkeen #Meals #Sweets #Namkeen #Meals

@@ -35,19 +35,19 @@ const Categories = forwardRef((props, ref) => {
       items: [
         {
           name: "Kaju Katli",
-          description: "Made with Almond, Cashew and Khoya",
+          description: "Melt-in-Mouth Magic of Kaju.",
           image: "/Categories/1.png",
           bgColor: "bg-purple-600"
         },
         {
           name: "Rasmalai",
-          description: "Where Sweetness Meets Elegance",
+          description: "Where Richness Meets Sweetness.",
           image: "/Categories/2.png",
           bgColor: "bg-purple-600"
         },
         {
           name: "Ladoo",
-          description: "Sweet round Bliss with Tradition",
+          description: "Sweetness Relived with Tradition.",
           image: "/Categories/3.png",
           bgColor: "bg-purple-600"
         }
@@ -59,19 +59,19 @@ const Categories = forwardRef((props, ref) => {
       items: [
         {
           name: "Bhakarwadi",
-          description: "The Perfect Crispy Spiral Snack",
+          description: "the traditional twist your taste buds crave.",
           image: "/Categories/4.png",
           bgColor: "bg-purple-600"
         },
         {
           name: "Chakli",
-          description: "Crunchy, The Comfort of Circles",
+          description: "Crunch That Comes Full Circle.",
           image: "/Categories/5.png",
           bgColor: "bg-purple-600"
         },
         {
           name: "Special Jaunpur Mix",
-          description: "Light, Crispy, Full of Flavour",
+          description: "Light, Crispy, Full of Flavour.",
           image: "/Categories/6.png",
           bgColor: "bg-purple-600"
         }
@@ -83,19 +83,19 @@ const Categories = forwardRef((props, ref) => {
       items: [
         {
           name: "Thali",
-          description: "One Thali, Endless Flavours",
+          description: "One Thali. Endless Flavours.",
           image: "/Categories/7.png",
           bgColor: "bg-purple-600"
         },
         {
           name: "Paneer Butter Masala",
-          description: "Rich, Creamy, Irresistible",
+          description: "Rich. Creamy. Irresistible.",
           image: "/Categories/8.png",
           bgColor: "bg-purple-600"
         },
         {
           name: "Veg biryani",
-          description: "A Symphony of Spice & Simplicity",
+          description: "A Bowl Full of Spice & Simplicity.",
           image: "/Categories/9.png",
           bgColor: "bg-purple-600"
         }
@@ -107,19 +107,19 @@ const Categories = forwardRef((props, ref) => {
       items: [
         {
           name: "Milk",
-          description: "Fresh and pure milk for your daily nutritional needs",
+          description: "Fresh and pure milk for your daily nourishment.",
           image: "/Categories/10.png",
           bgColor: "bg-purple-600"
         },
         {
           name: "Paneer",
-          description: "Soft, creamy, flavour-packed cottage cheese",
+          description: "Soft, creamy, tender made with fresh milk.",
           image: "/Categories/11.png",
           bgColor: "bg-purple-600"
         },
         {
           name: "Curd",
-          description: "Thick and creamy curd with a perfect tangy taste",
+          description: "Thick and natural curd with a perfect tangy taste.",
           image: "/Categories/12.png",
           bgColor: "bg-purple-600"
         }
