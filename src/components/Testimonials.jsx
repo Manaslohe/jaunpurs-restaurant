@@ -184,7 +184,7 @@ const Testimonials = () => {
           onTouchStart={handleTouchStart}
         >
           {/* Duplicate testimonials for infinite scroll effect */}
-          {[...testimonials, ...testimonials, ...testimonials].map((t, idx) => (
+          {[...testimonials, ...testimonials, ...testimonials,...testimonials, ...testimonials, ...testimonials].map((t, idx) => (
             <div
               key={idx}
               className="flex-shrink-0 w-[90vw] sm:w-[350px] md:w-[320px] lg:w-[300px] bg-white border-2 border-purple-400 rounded-2xl p-6 flex flex-col justify-between shadow-md mx-2"
