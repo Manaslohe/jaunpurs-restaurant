@@ -112,7 +112,7 @@ function LandingPage() {
         {/* Background image wraps Story and Categories */}
         <div
           style={{
-            backgroundImage: "url('/Story/bg.png')",
+            backgroundImage: "url('/Story/bg.jpg')",
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
             backgroundPosition: 'top center',

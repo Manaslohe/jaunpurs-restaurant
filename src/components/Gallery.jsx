@@ -186,9 +186,15 @@ const Gallery = () => {
 
       {/* View All Photos Button */}
       <div className="text-center">
-        <button className="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-8 py-3 rounded-full transition-colors duration-300 shadow-lg hover:shadow-xl">
-          View all Photos
-        </button>
+        <a
+          href="https://www.google.com/search?client=mobilesearchapp&sca_esv=a3e392cc0b6211b6&channel=iss&cs=1&hl=en_GB&rlz=1MDAPLA_en-GB__1122__1123&v=374.0.773146746&sxsrf=AE3TifOTfGUnEoxN8vnmH6tdfuAaszHTew:1752472237254&q=Jaunpurs+sweets+and+Restaurant+photos&udm=2&fbs=AIIjpHxU7SXXniUZfeShr2fp4giZ1Y6MJ25_tmWITc7uy4KIei9-d4bDCYGWNP_eFTtBNEwuAQVK0rg-1c_JXtht-6ycxvKDPTKNp6eCaIzje8gksMvn1RAh6-1pbvg_voRLMm0IydHeJ7ZIuEmioN9bCM90quuPU4wOZBvxexDhWa0dXhaglSPfh5Bt2An38kxZ_wbhogPUTOiGgsmID4u6VRofxzdDuw&sa=X&ved=2ahUKEwjqsbjp07uOAxVdd_UHHdCaC1wQtKgLKAF6BAgUEAE&biw=1699&bih=804&dpr=1.5"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <button className="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-8 py-3 rounded-full transition-colors duration-300 shadow-lg hover:shadow-xl">
+            View all Photos
+          </button>
+        </a>
       </div>
 
       {/* Modal */}

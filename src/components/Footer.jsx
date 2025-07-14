@@ -37,13 +37,13 @@ const Footer = () => {
           }}
         />
         {/* Order platforms */}
-        <div className="md:w-1/4 flex flex-col items-start pl-0 md:pl-6">
-          <div className="mb-2 text-base font-medium">You can order from this platform</div>
-          <div className="flex flex-row gap-2">
-            <a href="https://swiggy.com" target="_blank" rel="noopener noreferrer" className="w-32">
+        <div className="md:w-1/4 flex flex-col items-start pl-0 md:pl-0">
+          <div className="mb-4 text-base font-medium">You can order from this platform</div>
+          <div className="flex flex-row gap-2 md:flex-col md:gap-6 md:items-center w-full">
+            <a href="https://www.swiggy.com/city/nagpur/jaunpurs-sweets-manewada-sq-besa-road-rest820539" target="_blank" rel="noopener noreferrer" className="w-40 flex justify-center">
               <img src="/Hero/swiggy.png" alt="Swiggy" className="w-full h-8 object-contain" />
             </a>
-            <a href="https://zomato.com" target="_blank" rel="noopener noreferrer" className="w-32">
+            <a href="https://www.zomato.com/nagpur/jaunpurs-made-with-love-mithaas-ayodhya-nagar/order" target="_blank" rel="noopener noreferrer" className="w-40 flex justify-center">
               <img src="/Hero/zomato.png" alt="Zomato" className="w-full h-8 object-contain" />
             </a>
           </div>
@@ -57,9 +57,10 @@ const Footer = () => {
         />
         {/* Contact */}
         <div className="md:w-1/4 flex flex-col items-start pl-0 md:pl-6">
-          <div className="mb-2 text-[3.5vw] md:text-base font-medium">Contact</div>
+          <div className="mb-2 text-[4.5vw] md:text-[1.2vw] font-medium">Contact</div>
+          <div className="text-[3vw] md:text-[0.7vw] font-semibold mb-1">Contact Number</div>
           <div className="text-[4vw] md:text-sm flex items-center gap-2">
-            8767092368
+           +91 8767092368
             <button
               onClick={handleCopy}
               aria-label="Copy phone number"
@@ -83,7 +84,7 @@ const Footer = () => {
         />
         {/* Location */}
         <div className="md:w-1/4 flex flex-col items-start pl-0 md:pl-6">
-          <div className="mb-2 text-base font-medium">Location</div>
+          <div className="mb-2 text-[4.5vw] md:text-[1.2vw] font-medium">Location</div>
           <div className="text-sm">
             Jaunpurs sweets<br />
             manewada sq besa road, near, ghat, beside HP petrol pump, near Manewada,<br />

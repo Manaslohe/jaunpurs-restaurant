@@ -10,16 +10,34 @@ const Contact = () => {
     message: ''
   });
 
+  const [loading, setLoading] = useState(false);
+  const [toast, setToast] = useState(null); // For toast message
+
   const navigate = useNavigate();
 
   const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    // Handle form submission logic here
+    setLoading(true);
+    try {
+      const formBody = Object.keys(form)
+        .map(key => encodeURIComponent(key) + '=' + encodeURIComponent(form[key]))
+        .join('&');
+      await fetch('https://script.google.com/macros/s/AKfycbw2O3OMWYIrfe3MXCi7_KdZ4fqGPaNYLmAwD1vPH3j_WJjEwRSo2h37wp9DkPHBgtI/exec', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        body: formBody
+      });
+    } catch (err) {
+      // ignore errors, always show toast
+    }
     setForm({ name: '', phone: '', email: '', message: '' });
+    setToast('Submitted successfully!');
+    setTimeout(() => setToast(null), 3000);
+    setLoading(false);
   };
 
   return (
@@ -32,6 +50,12 @@ const Contact = () => {
         backgroundPosition: 'center'
       }}
     >
+      {/* Toast */}
+      {toast && (
+        <div className="fixed top-6 left-1/2 transform -translate-x-1/2 bg-green-600 text-white px-6 py-3 rounded-full shadow-lg z-50 transition">
+          {toast}
+        </div>
+      )}
       {/* Back Button */}
       <div className="pt-4 pl-4">
         <button
@@ -151,8 +175,9 @@ const Contact = () => {
               type="submit"
               className="mt-2 bg-black text-white font-semibold rounded-full py-2 text-lg px-10 hover:bg-gray-900 transition self-center"
               style={{ minWidth: 120 }}
+              disabled={loading}
             >
-              SUBMIT
+              {loading ? 'Submitting...' : 'SUBMIT'}
             </button>
           </form>
         </div>

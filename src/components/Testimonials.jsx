@@ -5,66 +5,68 @@ const testimonials = [
     text: "I loved the place. Cant wait to visit again each and every sweets are delicious. I suggest if you love mithai like me visit Jaunpurs Sweet I am sure you didn't regrate.",
     name: "Sunil Ranpariya",
     role: "Customer Review",
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
+    avatar: "/Testimonial/sunil.png",
     stars: 5,
   },
   {
     text: "Taste and texture of the sweet is very good, unlike other sweets. Tastes perfectly sweet and leaves a delightful aftertaste that lingers.",
     name: "Atharva Kadode",
     role: "Customer Review",
-    avatar: "https://randomuser.me/api/portraits/men/45.jpg",
+    avatar: "/Testimonial/athvarvakhodode.png",
     stars: 5,
   },
   {
     text: "Jaunpur's Resto serves food that's full of flavor and heart. Every bite feels homemade, yet elevated — perfectly spiced, well-balanced, and truly comforting.",
     name: "Om Pawar",
     role: "Customer Review",
-    avatar: "https://randomuser.me/api/portraits/men/65.jpg",
+    avatar: "/Testimonial/om.png",
     stars: 5,
   },
   {
     text: "Dining at Jaunpur's Resto is a treat — the flavors are bold, the ingredients fresh, and each dish reflects authentic culinary care. A truly satisfying experience every time.",
     name: "Smita Shende",
     role: "Customer Review",
-    avatar: "https://randomuser.me/api/portraits/women/68.jpg",
-    stars: 5,
+    avatar: "/Testimonial/samita.png",
+    stars: 4.5,
   },
   {
-    text: "Absolutely loved the sweets here! The staff is friendly and the ambiance is welcoming. Highly recommended for anyone with a sweet tooth.",
+    text: "The sweets here are really tasty and fresh. I especially loved the kaju katli! The staff was polite and the place felt cozy. Will come back for sure.",
     name: "Priya Sharma",
     role: "Customer Review",
-    avatar: "https://randomuser.me/api/portraits/women/44.jpg",
-    stars: 5,
+    avatar: "/Testimonial/priya.png",
+    stars: 4.5,
   },
   {
-    text: "The thali was delicious and the desserts were out of this world. Will definitely bring my family next time!",
+    text: "Tried the thali and a couple of desserts. The food was good, and the gulab jamun was a highlight. My kids enjoyed the meal too. Would recommend!",
     name: "Ravi Verma",
     role: "Customer Review",
-    avatar: "https://randomuser.me/api/portraits/men/23.jpg",
-    stars: 5,
+    avatar: "/Testimonial/ravi.png",
+    stars: 4,
   },
   {
-    text: "A wonderful experience! The sweets are fresh and the restaurant is always clean. Service is quick and courteous.",
+    text: "Nice experience overall. The sweets were fresh and the restaurant was clean. Service was quick, though it was a bit crowded when I visited.",
     name: "Anjali Patel",
     role: "Customer Review",
-    avatar: "https://randomuser.me/api/portraits/women/55.jpg",
-    stars: 5,
+    avatar: "/Testimonial/anjali.png",
+    stars: 4,
   },
   {
-    text: "Best place in town for authentic Indian sweets. The flavors remind me of home. Five stars!",
-    name: "Deepak Singh",
+    text: "If you love Indian sweets, this is a great spot. Reminded me of the flavors from my childhood. Would love to see more variety in snacks.",
+    name: "Shivam Shukla",
     role: "Customer Review",
-    avatar: "https://randomuser.me/api/portraits/men/77.jpg",
-    stars: 5,
+    avatar: "/Testimonial/shivam.png",
+    stars: 4.5,
   },
   {
-    text: "Every visit to Jaunpurs Sweets and Restaurant is a delight. The variety and taste are unmatched. Keep up the great work!",
+    text: "I visit Jaunpurs Sweets and Restaurant often. The taste is consistent and the staff is always welcoming. Sometimes the wait is a bit long, but it's worth it.",
     name: "Meena Joshi",
     role: "Customer Review",
-    avatar: "https://randomuser.me/api/portraits/women/60.jpg",
-    stars: 5,
+    avatar: "/Testimonial/meena.png",
+    stars: 4,
   },
 ];
+
+const SCROLL_SPEED_PX_PER_SEC = 40; // Adjust this value for desired speed
 
 const Testimonials = () => {
   const [translateX, setTranslateX] = useState(0);
@@ -74,12 +76,32 @@ const Testimonials = () => {
   const [isAnimating, setIsAnimating] = useState(true);
   const containerRef = useRef(null);
   const animationRef = useRef(null);
+  const lastTimestampRef = useRef(null);
+  const testimonialsSetRef = useRef(null);
+  const [setWidth, setSetWidth] = useState(0);
 
-  // Auto-scroll animation
+  // Measure the width of one set of testimonials
   useEffect(() => {
-    if (!isDragging && isAnimating) {
-      const animate = () => {
-        setTranslateX(prev => prev - 2); // Increased speed from -0.5 to -2
+    if (testimonialsSetRef.current) {
+      setSetWidth(testimonialsSetRef.current.offsetWidth);
+    }
+  }, []);
+
+  // Infinite auto-scroll animation
+  useEffect(() => {
+    if (!isDragging && isAnimating && setWidth > 0) {
+      const animate = (timestamp) => {
+        if (!lastTimestampRef.current) lastTimestampRef.current = timestamp;
+        const elapsed = timestamp - lastTimestampRef.current;
+        lastTimestampRef.current = timestamp;
+        setTranslateX(prev => {
+          let next = prev - (SCROLL_SPEED_PX_PER_SEC * elapsed) / 1000;
+          // Reset when scrolled past one set
+          if (Math.abs(next) >= setWidth) {
+            next += setWidth;
+          }
+          return next;
+        });
         animationRef.current = requestAnimationFrame(animate);
       };
       animationRef.current = requestAnimationFrame(animate);
@@ -88,8 +110,9 @@ const Testimonials = () => {
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current);
       }
+      lastTimestampRef.current = null;
     };
-  }, [isDragging, isAnimating]);
+  }, [isDragging, isAnimating, setWidth]);
 
   const handleStart = (clientX) => {
     setIsDragging(true);
@@ -99,12 +122,19 @@ const Testimonials = () => {
     if (animationRef.current) {
       cancelAnimationFrame(animationRef.current);
     }
+    lastTimestampRef.current = null;
   };
 
   const handleMove = (clientX) => {
     if (!isDragging) return;
     const deltaX = clientX - startX;
-    setTranslateX(currentTranslate + deltaX);
+    let next = currentTranslate + deltaX;
+    // Infinite drag: wrap around
+    if (setWidth > 0) {
+      if (next <= -setWidth) next += setWidth;
+      if (next > 0) next -= setWidth;
+    }
+    setTranslateX(next);
   };
 
   const handleEnd = () => {
@@ -160,14 +190,14 @@ const Testimonials = () => {
     <div
       className="w-full min-h-[auto] md:min-h-[100vh] flex flex-col justify-center py-8 md:py-12"
       style={{
-        backgroundImage: "url('/Testimonial/bg.png')",
+        backgroundImage: "url('/Testimonial/bg.jpg')",
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundRepeat: 'no-repeat',
       }}
     >
       <div className="text-center mb-2">
-        <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-2">Customers Say</h2>
+        <h2 className="text-4xl md:text-7xl font-bold text-gray-900 mb-2">Customers Say</h2>
         <div className="text-xl text-purple-700 font-medium mb-8">Real Feedback From Real Customers</div>
       </div>
       
@@ -183,27 +213,52 @@ const Testimonials = () => {
           onMouseDown={handleMouseDown}
           onTouchStart={handleTouchStart}
         >
-          {/* Duplicate testimonials for infinite scroll effect */}
-          {[...testimonials, ...testimonials, ...testimonials,...testimonials, ...testimonials, ...testimonials].map((t, idx) => (
-            <div
-              key={idx}
-              className="flex-shrink-0 w-[90vw] sm:w-[350px] md:w-[320px] lg:w-[300px] bg-white border-2 border-purple-400 rounded-2xl p-6 flex flex-col justify-between shadow-md mx-2"
-            >
-              <div className="mb-6 text-gray-800 text-base">{t.text}</div>
-              <div className="flex items-center gap-3">
-                <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full object-cover border-2 border-white shadow" />
-                <div>
-                  <div className="font-semibold text-gray-900">{t.name}</div>
-                  <div className="text-xs text-gray-500 italic">{t.role}</div>
-                </div>
-                <div className="ml-auto flex items-center">
-                  {Array.from({ length: t.stars }).map((_, i) => (
-                    <span key={i} className="text-orange-400 text-lg">&#9733;</span>
-                  ))}
+          {/* One set for measuring width */}
+          <div ref={testimonialsSetRef} className="flex gap-6">
+            {testimonials.map((t, idx) => (
+              <div
+                key={idx}
+                className="flex-shrink-0 w-[90vw] sm:w-[350px] md:w-[320px] lg:w-[300px] bg-white border-2 border-purple-400 rounded-2xl p-6 flex flex-col justify-between shadow-md mx-2"
+              >
+                <div className="mb-6 text-gray-800 text-base">{t.text}</div>
+                <div className="flex items-center gap-3">
+                  <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full object-cover border-2 border-white shadow" />
+                  <div>
+                    <div className="font-semibold text-gray-900">{t.name}</div>
+                    <div className="text-xs text-gray-500 italic">{t.role}</div>
+                  </div>
+                  <div className="ml-auto flex items-center">
+                    {Array.from({ length: t.stars }).map((_, i) => (
+                      <span key={i} className="text-orange-400 text-lg">&#9733;</span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+          {/* Duplicated sets for infinite scroll */}
+          <div className="flex gap-6">
+            {testimonials.map((t, idx) => (
+              <div
+                key={`dup1-${idx}`}
+                className="flex-shrink-0 w-[90vw] sm:w-[350px] md:w-[320px] lg:w-[300px] bg-white border-2 border-purple-400 rounded-2xl p-6 flex flex-col justify-between shadow-md mx-2"
+              >
+                <div className="mb-6 text-gray-800 text-base">{t.text}</div>
+                <div className="flex items-center gap-3">
+                  <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full object-cover border-2 border-white shadow" />
+                  <div>
+                    <div className="font-semibold text-gray-900">{t.name}</div>
+                    <div className="text-xs text-gray-500 italic">{t.role}</div>
+                  </div>
+                  <div className="ml-auto flex items-center">
+                    {Array.from({ length: t.stars }).map((_, i) => (
+                      <span key={i} className="text-orange-400 text-lg">&#9733;</span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
 

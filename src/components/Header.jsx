@@ -49,44 +49,57 @@ function Header() {
           className="h-20 w-30 object-contain md:h-20 md:w-50 transition-all duration-300"
         />
       </div>
+      
       {/* Desktop Navigation */}
       <nav className="hidden md:flex gap-8 text-lg font-medium">
         <span
-          className="relative cursor-pointer px-4 py-1 group"
+          className="relative cursor-pointer px-4 py-2 group transition-all duration-300 hover:text-orange-500"
           onClick={() => navigate('/')}
         >
           <span className="relative z-10">Home</span>
-          <span className="absolute left-1/2 -translate-x-1/2 bottom-0 h-8 w-[90px] rounded-full bg-orange-400 opacity-0 scale-75 group-hover:opacity-100  group-hover:scale-100 transition-all duration-300 -z-10"></span>
+          {/* Modern underline effect */}
+          <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-gradient-to-r from-orange-400 to-orange-600 group-hover:w-full transition-all duration-500 ease-out"></span>
+          {/* Subtle glow effect */}
+          <span className="absolute inset-0 bg-orange-100/20 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100"></span>
         </span>
+        
         <span
-          className="relative cursor-pointer px-4 py-1 group"
+          className="relative cursor-pointer px-4 py-2 group transition-all duration-300 hover:text-orange-500"
           onClick={() => scrollToSection('sweet')}
         >
           <span className="relative z-10">Menu</span>
-          <span className="absolute left-1/2 -translate-x-1/2 bottom-0 h-8 w-[90px] rounded-full bg-orange-400 opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 -z-10"></span>
+          <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-gradient-to-r from-orange-400 to-orange-600 group-hover:w-full transition-all duration-500 ease-out"></span>
+          <span className="absolute inset-0 bg-orange-100/20 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100"></span>
         </span>
+        
         <span
-          className="relative cursor-pointer px-4 py-1 group"
+          className="relative cursor-pointer px-4 py-2 group transition-all duration-300 hover:text-orange-500"
           onClick={() => scrollToSection('ourstory')}
         >
           <span className="relative z-10">Our Story</span>
-          <span className="absolute left-1/2 -translate-x-1/2 bottom-0 h-8 w-[90px] rounded-full bg-orange-400 opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 -z-10"></span>
+          <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-gradient-to-r from-orange-400 to-orange-600 group-hover:w-full transition-all duration-500 ease-out"></span>
+          <span className="absolute inset-0 bg-orange-100/20 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100"></span>
         </span>
+        
         <span
-          className="relative cursor-pointer px-4 py-1 group"
+          className="relative cursor-pointer px-4 py-2 group transition-all duration-300 hover:text-orange-500"
           onClick={() => scrollToSection('gallery')}
         >
           <span className="relative z-10">Gallery</span>
-          <span className="absolute left-1/2 -translate-x-1/2 bottom-0 h-8 w-[90px] rounded-full bg-orange-400 opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 -z-10"></span>
+          <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-gradient-to-r from-orange-400 to-orange-600 group-hover:w-full transition-all duration-500 ease-out"></span>
+          <span className="absolute inset-0 bg-orange-100/20 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100"></span>
         </span>
+        
         <span
-          className="relative cursor-pointer px-4 py-1 group"
+          className="relative cursor-pointer px-4 py-2 group transition-all duration-300 hover:text-orange-500"
           onClick={() => navigate('/contact')}
         >
           <span className="relative z-10">Contact</span>
-          <span className="absolute left-1/2 -translate-x-1/2 bottom-0 h-8 w-[90px] rounded-full bg-orange-400 opacity-0 scale-75 group-hover:opacity-100 group-hover:scale-100 transition-all duration-300 -z-10"></span>
+          <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-gradient-to-r from-orange-400 to-orange-600 group-hover:w-full transition-all duration-500 ease-out"></span>
+          <span className="absolute inset-0 bg-orange-100/20 rounded-lg opacity-0 group-hover:opacity-100 transition-all duration-300 scale-95 group-hover:scale-100"></span>
         </span>
       </nav>
+      
       {/* Mobile Hamburger */}
       <div className="md:hidden ml-auto flex items-center">
         <button
@@ -101,39 +114,40 @@ function Header() {
             <FiX size={24} className="transition-transform duration-500 text-orange-500" />
           )}
         </button>
-      {/* Mobile Dropdown */}
-      <div className={`absolute top-full left-0 w-full px-2 transition-all duration-500 z-50
-          ${mobileOpen ? 'opacity-100 pointer-events-auto translate-y-0' : 'opacity-0 pointer-events-none -translate-y-4'}
-        `}>
+        
+        {/* Mobile Dropdown */}
+        <div className={`absolute top-full left-0 w-full px-2 transition-all duration-500 z-50
+            ${mobileOpen ? 'opacity-100 pointer-events-auto translate-y-0' : 'opacity-0 pointer-events-none -translate-y-4'}
+          `}>
           <div className="flex flex-col py-4 bg-white/90 rounded-2xl shadow-2xl border border-orange-100 backdrop-blur-md
             animate-fade-in-down
           ">
             <span
-              className="mx-2 my-1 px-6 py-3 text-base font-semibold rounded-full cursor-pointer hover:bg-orange-400 hover:text-white transition-all duration-300 text-center"
+              className="mx-2 my-1 px-6 py-3 text-base font-semibold rounded-xl cursor-pointer hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 hover:text-orange-600 transition-all duration-300 text-center transform hover:scale-105 hover:shadow-sm"
               onClick={() => { setMobileOpen(false); navigate('/'); }}
             >
               Home
             </span>
             <span
-              className="mx-2 my-1 px-6 py-3 text-base font-semibold rounded-full cursor-pointer hover:bg-orange-400 hover:text-white transition-all duration-300 text-center"
+              className="mx-2 my-1 px-6 py-3 text-base font-semibold rounded-xl cursor-pointer hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 hover:text-orange-600 transition-all duration-300 text-center transform hover:scale-105 hover:shadow-sm"
               onClick={() => { setMobileOpen(false); scrollToSection('sweet'); }}
             >
               Menu
             </span>
             <span
-              className="mx-2 my-1 px-6 py-3 text-base font-semibold rounded-full cursor-pointer hover:bg-orange-400 hover:text-white transition-all duration-300 text-center"
+              className="mx-2 my-1 px-6 py-3 text-base font-semibold rounded-xl cursor-pointer hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 hover:text-orange-600 transition-all duration-300 text-center transform hover:scale-105 hover:shadow-sm"
               onClick={() => { setMobileOpen(false); scrollToSection('ourstory'); }}
             >
               Our Story
             </span>
             <span
-              className="mx-2 my-1 px-6 py-3 text-base font-semibold rounded-full cursor-pointer hover:bg-orange-400 hover:text-white transition-all duration-300 text-center"
+              className="mx-2 my-1 px-6 py-3 text-base font-semibold rounded-xl cursor-pointer hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 hover:text-orange-600 transition-all duration-300 text-center transform hover:scale-105 hover:shadow-sm"
               onClick={() => { setMobileOpen(false); scrollToSection('gallery'); }}
             >
               Gallery
             </span>
             <span
-              className="mx-2 my-1 px-6 py-3 text-base font-semibold rounded-full cursor-pointer hover:bg-orange-400 hover:text-white transition-all duration-300 text-center"
+              className="mx-2 my-1 px-6 py-3 text-base font-semibold rounded-xl cursor-pointer hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 hover:text-orange-600 transition-all duration-300 text-center transform hover:scale-105 hover:shadow-sm"
               onClick={() => { setMobileOpen(false); navigate('/contact'); }}
             >
               Contact
@@ -141,6 +155,7 @@ function Header() {
           </div>
         </div>
       </div>
+      
       {/* Mobile dropdown animation */}
       <style>{`
         @keyframes fade-in-down {

@@ -1,5 +1,4 @@
 import React from "react";
-import dosaImg from "../../public/Story/thali.png";
 
 const Story = () => {
   return (
@@ -11,7 +10,7 @@ const Story = () => {
 
       {/* Dosa Image - absolutely positioned, independent of main content */}
       <img
-        src={dosaImg}
+        src="/Story/thali.png"
         alt="Traditional Indian Thali"
         className="absolute -top-20 md:top-10 right-0 w-full max-w-[200px] md:max-w-[450px] lg:max-w-[45%] h-[100%] object-contain md:z-30 pointer-events-none"
         style={{

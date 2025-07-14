@@ -120,9 +120,11 @@ function Hero({ onCategoryClick }) {
 					{categories.map((cat, idx) => (
 						<div
 							key={cat.label}
-							className={`flex justify-between items-center px-3 py-2 rounded-r-full font-semibold text-sm shadow cursor-pointer transition duration-500 ease-in-out
-								bg-white text-black border border-gray-200
-								hover:bg-orange-400 hover:text-white hover:scale-105
+							className={`flex justify-between items-center px-3 py-2 rounded-r-full font-semibold text-sm shadow-md cursor-pointer transition-all duration-300 ease-in-out
+								bg-gradient-to-r from-orange-100 via-white to-orange-200
+								text-black border border-orange-200
+								hover:bg-gradient-to-r hover:from-orange-200 hover:to-orange-300 hover:text-black hover:shadow-lg hover:scale-105
+								group
 							`}
 							onClick={() => {
 								const sectionId = getCategorySectionId(cat.label);
@@ -132,8 +134,8 @@ function Hero({ onCategoryClick }) {
 							}}
 						>
 							<span className="flex-1 text-left">{cat.label}</span>
-							<div className="flex items-center justify-center w-9 h-9 rounded-full border border-gray-300 bg-white ml-2">
-								{/* Increased w/h to w-9 h-9, border to border, bg to white, ml-2 for spacing */}
+							<div className="flex items-center justify-center w-9 h-9 rounded-full border border-orange-200 bg-white ml-2 transition-all duration-300">
+								{/* No hover effect on icon */}
 								{cat.icon}
 							</div>
 						</div>
@@ -157,8 +159,9 @@ function Hero({ onCategoryClick }) {
 				{categories.map((cat, idx) => (
 					<div
 						key={cat.label}
-						className={`flex border border-white items-center gap-2 px-6 pl-1 py-1 rounded-l-full text-white font-semibold shadow-lg cursor-pointer transition duration-500 ease-in-out
-							bg-transparent hover:bg-orange-400 hover:scale-110
+						className={`flex border border-neutral-200 items-center gap-2 px-6 pl-1 py-1 rounded-l-full text-black font-semibold shadow-lg cursor-pointer transition-all duration-300 ease-in-out
+							bg-neutral-50 hover:bg-neutral-200 hover:text-black hover:scale-110 hover:shadow-lg
+							group
 						`}
 						onClick={() => {
 							const sectionId = getCategorySectionId(cat.label);
@@ -167,7 +170,8 @@ function Hero({ onCategoryClick }) {
 							}
 						}}
 					>
-						<div className="flex items-center justify-center w-10 h-10 rounded-full border-1 border-white bg-transparent">
+						<div className="flex items-center justify-center w-10 h-10 rounded-full border border-neutral-200 bg-white transition-all duration-300">
+							{/* No hover effect on icon */}
 							{cat.icon}
 						</div>
 						{cat.label}
@@ -176,20 +180,30 @@ function Hero({ onCategoryClick }) {
 			</div>
 			{/* Swiggy & Zomato Buttons at Bottom */}
 			<div className="absolute bottom-[6vh] z-40 flex gap-4 left-1/2 -translate-x-1/2 md:left-8 md:translate-x-0 justify-center md:justify-start w-full md:w-auto">
-				<button className="p-0 bg-transparent hover:scale-105 transition">
-					<img
-						src="/Hero/swiggy.png"
-						alt="Order on Swiggy"
-						className="h-8 w-auto object-contain"
-					/>
-				</button>
-				<button className="p-0 bg-transparent hover:scale-105 transition">
-					<img
-						src="/Hero/zomato.png"
-						alt="Order on Zomato"
-						className="h-8 w-auto object-contain"
-					/>
-				</button>
+			   <a
+				   href="https://www.swiggy.com/city/nagpur/jaunpurs-sweets-manewada-sq-besa-road-rest820539"
+				   target="_blank"
+				   rel="noopener noreferrer"
+				   className="p-0 bg-transparent hover:scale-105 transition"
+			   >
+				   <img
+					   src="/Hero/swiggy.png"
+					   alt="Order on Swiggy"
+					   className="h-8 w-auto object-contain"
+				   />
+			   </a>
+			   <a
+				   href="https://www.zomato.com/nagpur/jaunpurs-made-with-love-mithaas-ayodhya-nagar/order"
+				   target="_blank"
+				   rel="noopener noreferrer"
+				   className="p-0 bg-transparent hover:scale-105 transition"
+			   >
+				   <img
+					   src="/Hero/zomato.png"
+					   alt="Order on Zomato"
+					   className="h-8 w-auto object-contain"
+				   />
+			   </a>
 			</div>
 			{/* Bottom hashtag bar */}
 			<div className="absolute bottom-0 left-0 w-full bg-orange-400 text-white text-[3vw] md:text-[1vw] py-1 px-2 text-center z-30 overflow-hidden">
