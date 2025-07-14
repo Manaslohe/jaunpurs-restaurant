@@ -70,8 +70,8 @@ const Categories = forwardRef((props, ref) => {
           bgColor: "bg-purple-600"
         },
         {
-          name: "Special Jaunpur Mix",
-          description: "Light, Crispy, Full of Flavour.",
+          name: "Jaunpurs Special",
+          description: "Mixture of crisp, heritage and flavours.",
           image: "/Categories/6.png",
           bgColor: "bg-purple-600"
         }
@@ -219,7 +219,7 @@ const Categories = forwardRef((props, ref) => {
                       </div>
 
                       {/* Content */}
-                      <h3 className="text-xl md:text-2xl font-medium mb-2 hidden md:block">
+                      <h3 className="text-xl md:text-[1.5vw] font-medium mb-[0.5vw] hidden md:block">
                         {item.name}
                       </h3>
                       <p className="text-sm md:text-[0.7vw] text-white/90 leading-relaxed hidden md:block italic font-light">
@@ -236,7 +236,10 @@ const Categories = forwardRef((props, ref) => {
 
       {/* View Full Menu Button */}
       <div className="text-center mt-12">
-        <button className="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-8 py-3 rounded-full transition-colors duration-300 shadow-lg hover:shadow-xl">
+        <button
+          className="bg-orange-400 hover:bg-orange-500 text-white font-semibold px-8 py-3 rounded-full transition-colors duration-300 shadow-lg hover:shadow-xl"
+          onClick={() => window.open('/J1.pdf', '_blank')}
+        >
           View Full Menu
         </button>
       </div>
