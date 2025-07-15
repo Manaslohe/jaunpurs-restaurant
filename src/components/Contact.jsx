@@ -1,6 +1,24 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import '@fontsource/montserrat/700.css'; // Import Montserrat Bold
+import { motion } from 'framer-motion';
+
+const headingVariants = {
+  hidden: { opacity: 0, y: 40 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }
+};
+const subtitleVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.7, delay: 0.2, ease: [0.22, 1, 0.36, 1] } }
+};
+const leftVariants = {
+  hidden: { opacity: 0, x: -40 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.7, delay: 0.4, ease: [0.22, 1, 0.36, 1] } }
+};
+const rightVariants = {
+  hidden: { opacity: 0, x: 40 },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.7, delay: 0.6, ease: [0.22, 1, 0.36, 1] } }
+};
 
 const Contact = () => {
   const [form, setForm] = useState({
@@ -71,19 +89,32 @@ const Contact = () => {
       </div>
       {/* Heading */}
       <div className="flex flex-col items-center mt-2 mb-2">
-        <div
+        <motion.div
+          variants={headingVariants}
+          initial="hidden"
+          animate="visible"
           className="text-white text-[9vw] md:text-6xl font-bold text-center"
           style={{ fontFamily: "'Montserrat', sans-serif" }}
         >
           Contact & Enquiry
-        </div>
-        <div className="text-white/60 text-[3vw] md:text-lg font-normal text-center mt-1">
+        </motion.div>
+        <motion.div
+          variants={subtitleVariants}
+          initial="hidden"
+          animate="visible"
+          className="text-white/60 text-[3vw] md:text-lg font-normal text-center mt-1"
+        >
           Need assistance or more info? Reach out we're just a call away!
-        </div>
+        </motion.div>
       </div>
       <div className="flex flex-col md:flex-row justify-center items-start gap-10 px-4 md:px-16 py-4 w-full">
         {/* Left: Contact & Location */}
-        <div className="flex flex-col gap-6 w-full md:w-[40%] mt-2">
+        <motion.div
+          variants={leftVariants}
+          initial="hidden"
+          animate="visible"
+          className="flex flex-col gap-6 w-full md:w-[40%] mt-2"
+        >
           <div>
             <div className="bg-gradient-to-r from-[#E78D3F] to-transparent pl-2 pr-24 py-1  w-fit mb-1">
               <span className="text-white text-3xl font-semibold tracking-wide">Contact</span>
@@ -131,9 +162,14 @@ const Contact = () => {
               ></iframe>
             </div>
           </div>
-        </div>
+        </motion.div>
         {/* Right: Enquiry Box */}
-        <div className="w-full md:w-[45%] bg-[#E78D3F] rounded-2xl px-4 md:px-8 py-8 flex flex-col items-center shadow-lg mt-2">
+        <motion.div
+          variants={rightVariants}
+          initial="hidden"
+          animate="visible"
+          className="w-full md:w-[45%] bg-[#E78D3F] rounded-2xl px-4 md:px-8 py-8 flex flex-col items-center shadow-lg mt-2"
+        >
           <div className="text-white text-3xl font-semibold mb-4 md:mb-10 text-center">Enquiry Box</div>
           <form className="w-full flex flex-col gap-6" onSubmit={handleSubmit}>
             <input
@@ -180,7 +216,7 @@ const Contact = () => {
               {loading ? 'Submitting...' : 'SUBMIT'}
             </button>
           </form>
-        </div>
+        </motion.div>
       </div>
     </div>
   );

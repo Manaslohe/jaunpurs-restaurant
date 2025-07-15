@@ -65,7 +65,7 @@ function Header() {
         
         <span
           className="relative cursor-pointer px-4 py-2 group transition-all duration-300 hover:text-orange-500"
-          onClick={() => scrollToSection('sweet')}
+          onClick={() => scrollToSection('sweets')}
         >
           <span className="relative z-10">Menu</span>
           <span className="absolute left-0 bottom-0 h-0.5 w-0 bg-gradient-to-r from-orange-400 to-orange-600 group-hover:w-full transition-all duration-500 ease-out"></span>
@@ -130,7 +130,7 @@ function Header() {
             </span>
             <span
               className="mx-2 my-1 px-6 py-3 text-base font-semibold rounded-xl cursor-pointer hover:bg-gradient-to-r hover:from-orange-50 hover:to-orange-100 hover:text-orange-600 transition-all duration-300 text-center transform hover:scale-105 hover:shadow-sm"
-              onClick={() => { setMobileOpen(false); scrollToSection('sweet'); }}
+              onClick={() => { setMobileOpen(false); scrollToSection('sweets'); }}
             >
               Menu
             </span>

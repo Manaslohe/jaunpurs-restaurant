@@ -1,8 +1,6 @@
 import React from 'react';
 import Marquee from "react-fast-marquee";
 import { FaMapMarkerAlt } from 'react-icons/fa';
-import { GiCakeSlice, GiFullPizza, GiMilkCarton } from 'react-icons/gi';
-import { MdFastfood } from 'react-icons/md';
 import Header from './Header';
 
 const categories = [
@@ -59,7 +57,7 @@ function Hero({ onCategoryClick }) {
 				<Header />
 			</div>
 			{/* Location text at top right */}
-			<div className="hidden md:flex absolute top-6 right-10 z-30 items-center gap-2 bg-transparent">
+			<div className="hidden md:flex absolute top-[1rem] right-[1rem] z-30 items-center gap-2 bg-transparent">
 				<FaMapMarkerAlt className="text-white" size={22} />
 				<span className="text-white text-[0.8vw] font-normal">
 					Manewada Square Nagpur 27
@@ -149,7 +147,7 @@ function Hero({ onCategoryClick }) {
 				</div>
 			</div>
 			{/* Thali Image below main content and above buttons (desktop only) */}
-			<div className="hidden md:block absolute left-[18vw] bottom-[8vw] z-30 group">
+			<div className="hidden md:block absolute left-[18vw] top-[20rem] z-30 group">
 				<img
 					src="/Hero/thali.png"
 					alt="Thali"
@@ -157,7 +155,7 @@ function Hero({ onCategoryClick }) {
 				/>
 			</div>
 			{/* Thali2 Image beside thali.png, desktop only */}
-			<div className="hidden md:block absolute left-[41vw] bottom-[2vw] z-30 group">
+			<div className="hidden md:block absolute left-[41vw] top-[15rem] z-30 group">
 				<img
 					src="/Hero/thali2.png"
 					alt="Thali 2"
@@ -177,7 +175,7 @@ function Hero({ onCategoryClick }) {
 				{categories.map((cat, idx) => (
 					<div
 						key={cat.label}
-						className={`flex border border-neutral-200 items-center gap-2 px-6 pl-1 py-1 rounded-l-full text-black font-semibold shadow-lg cursor-pointer transition-all duration-300 ease-in-out
+						className={`flex border border-neutral-200 items-center gap-1 px-2 pl-1 py-1 rounded-l-full text-black font-semibold shadow-lg cursor-pointer transition-all duration-300 ease-in-out
 							bg-neutral-50 hover:bg-neutral-200 hover:text-black hover:scale-110 hover:shadow-lg
 							group
 						`}
@@ -197,7 +195,7 @@ function Hero({ onCategoryClick }) {
 				))}
 			</div>
 			{/* Swiggy & Zomato Buttons at Bottom */}
-			<div className="absolute bottom-[6vh] z-40 flex gap-4 left-1/2 -translate-x-1/2 md:left-8 md:translate-x-0 justify-center md:justify-start w-full md:w-auto">
+			<div className="absolute bottom-[8%] z-40 flex gap-4 left-1/2 -translate-x-1/2 md:left-8 md:translate-x-0 justify-center md:justify-start w-full md:w-auto">
 			   <a
 				   href="https://www.swiggy.com/menu/1088255?source=sharing "
 				   target="_blank"
@@ -207,7 +205,7 @@ function Hero({ onCategoryClick }) {
 				   <img
 					   src="/Hero/swiggy.png"
 					   alt="Order on Swiggy"
-					   className="h-8 w-auto object-contain"
+					   className="h-[2rem] w-auto object-contain"
 				   />
 			   </a>
 			   <a
@@ -219,7 +217,7 @@ function Hero({ onCategoryClick }) {
 				   <img
 					   src="/Hero/zomato.png"
 					   alt="Order on Zomato"
-					   className="h-8 w-auto object-contain"
+					   className="h-[2rem] w-auto object-contain"
 				   />
 			   </a>
 			</div>
