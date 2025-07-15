@@ -30,7 +30,7 @@ function smoothScrollTo(element, duration = 1200) {
 const Categories = forwardRef((props, ref) => {
   const categories = [
     {
-      section: "SWEET",
+      section: "SWEETS",
       subtitle: "",
       items: [
         {

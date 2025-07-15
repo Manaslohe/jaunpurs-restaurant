@@ -7,26 +7,26 @@ import Header from './Header';
 
 const categories = [
 	{
-		icon: <img src="/Hero/sweet.png" alt="Sweets" className="h-10 w-10 object-contain" />,
+		icon: <img src="/Hero/sweet.png" alt="Sweets" className="h-10 w-10 object-cover rounded-full" />,
 		label: 'Sweets',
 		color: 'bg-orange-400',
 		text: 'text-white',
 	},
 	{
-		icon: <img src="/Hero/namkeen.png" alt="Namkeen" className="h-10 w-10 object-contain" />,
+		icon: <img src="/Hero/namkeen.png" alt="Namkeen" className="h-10 w-10 object-cover rounded-full" />,
 		label: 'Namkeen',
 		color: 'bg-purple-700',
 		text: 'text-white',
 	},
 	{
-		icon: <img src="/Hero/meal.png" alt="Meals" className="h-10 w-10 object-contain" />,
+		icon: <img src="/Hero/meal.png" alt="Meals" className="h-10 w-10 object-cover rounded-full" />,
 		label: 'Meals',
 		color: 'bg-purple-700',
 		text: 'text-white',
 	},
 	{
-		icon: <img src="/Hero/dairy.png" alt="Dairy Product" className="h-10 w-10 object-contain" />,
-		label: 'Dairy Product',
+		icon: <img src="/Hero/dairy.png" alt="Dairy Products" className="h-10 w-10 object-cover rounded-full" />,
+		label: 'Dairy Products',
 		color: 'bg-purple-700',
 		text: 'text-white',
 	},
@@ -36,12 +36,12 @@ const categories = [
 const getCategorySectionId = (label) => {
 	switch (label.toLowerCase()) {
 		case 'sweets':
-			return 'sweet';
+			return 'sweets';
 		case 'namkeen':
 			return 'namkeen';
 		case 'meals':
 			return 'vegmeals';
-		case 'dairy product':
+		case 'dairy products':
 			return 'dairyproducts';
 		default:
 			return '';
@@ -121,13 +121,19 @@ function Hero({ onCategoryClick }) {
 						<div
 							key={cat.label}
 							className={`flex justify-between items-center px-3 py-2 rounded-r-full font-semibold text-sm shadow-md cursor-pointer transition-all duration-300 ease-in-out
-								bg-gradient-to-r from-orange-100 via-white to-orange-200
-								text-black border border-orange-200
-								hover:bg-gradient-to-r hover:from-orange-200 hover:to-orange-300 hover:text-black hover:shadow-lg hover:scale-105
+								bg-white/90 border border-orange-200
+								text-black
+								hover:bg-orange-50 hover:border-orange-300 hover:text-black hover:shadow-lg hover:scale-105
 								group
 							`}
 							onClick={() => {
 								const sectionId = getCategorySectionId(cat.label);
+								if (sectionId) {
+									const el = document.getElementById(sectionId);
+									if (el) {
+										el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+									}
+								}
 								if (onCategoryClick && sectionId) {
 									onCategoryClick(sectionId);
 								}
@@ -142,18 +148,30 @@ function Hero({ onCategoryClick }) {
 					))}
 				</div>
 			</div>
-			{/* Thali Image below main content and above buttons */}
-			<img
-			   src="/Hero/thali.png"
-			   alt="Thali"
-			   className="absolute left-60 bottom-30 md:bottom-30 z-30 h-[40vh] w-auto object-contain"
-			/>
+			{/* Thali Image below main content and above buttons (desktop only) */}
+			<div className="hidden md:block absolute left-[18vw] bottom-[8vw] z-30 group">
+				<img
+					src="/Hero/thali.png"
+					alt="Thali"
+					className="h-[18vw] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+				/>
+			</div>
 			{/* Thali2 Image beside thali.png, desktop only */}
-			<img
-			   src="/Hero/thali2.png"
-			   alt="Thali 2"
-			   className="hidden md:block absolute left-[41vw] bottom-8 z-30 h-[30vw] w-auto object-contain"
-			/>
+			<div className="hidden md:block absolute left-[41vw] bottom-[2vw] z-30 group">
+				<img
+					src="/Hero/thali2.png"
+					alt="Thali 2"
+					className="h-[30vw] w-auto object-contain transition-transform duration-300 group-hover:scale-105"
+				/>
+			</div>
+			{/* Thali Image for mobile only, center right aligned */}
+			<div className="block md:hidden absolute -right-[35vw] top-1/2 transform -translate-y-1/2 z-30">
+				<img
+					src="/Hero/thali.png"
+					alt="Thali"
+					className="h-[60vw] w-auto object-contain"
+				/>
+			</div>
 			{/* Sidebar for categories */}
 			<div className="hidden md:flex flex-col absolute right-0 top-36 gap-4 z-20">
 				{categories.map((cat, idx) => (
@@ -181,7 +199,7 @@ function Hero({ onCategoryClick }) {
 			{/* Swiggy & Zomato Buttons at Bottom */}
 			<div className="absolute bottom-[6vh] z-40 flex gap-4 left-1/2 -translate-x-1/2 md:left-8 md:translate-x-0 justify-center md:justify-start w-full md:w-auto">
 			   <a
-				   href="https://www.swiggy.com/city/nagpur/jaunpurs-sweets-manewada-sq-besa-road-rest820539"
+				   href="https://www.swiggy.com/menu/1088255?source=sharing "
 				   target="_blank"
 				   rel="noopener noreferrer"
 				   className="p-0 bg-transparent hover:scale-105 transition"
@@ -193,7 +211,7 @@ function Hero({ onCategoryClick }) {
 				   />
 			   </a>
 			   <a
-				   href="https://www.zomato.com/nagpur/jaunpurs-made-with-love-mithaas-ayodhya-nagar/order"
+				   href="https://zomato.onelink.me/xqzv/tjyw6w3v "
 				   target="_blank"
 				   rel="noopener noreferrer"
 				   className="p-0 bg-transparent hover:scale-105 transition"

@@ -40,10 +40,10 @@ const Footer = () => {
         <div className="md:w-1/4 flex flex-col items-start pl-0 md:pl-0">
           <div className="mb-4 text-base font-medium">You can order from this platform</div>
           <div className="flex flex-row gap-2 md:flex-col md:gap-6 md:items-center w-full">
-            <a href="https://www.swiggy.com/city/nagpur/jaunpurs-sweets-manewada-sq-besa-road-rest820539" target="_blank" rel="noopener noreferrer" className="w-40 flex justify-center">
+            <a href="https://www.swiggy.com/menu/1088255?source=sharing" target="_blank" rel="noopener noreferrer" className="w-40 flex justify-center">
               <img src="/Hero/swiggy.png" alt="Swiggy" className="w-full h-8 object-contain" />
             </a>
-            <a href="https://www.zomato.com/nagpur/jaunpurs-made-with-love-mithaas-ayodhya-nagar/order" target="_blank" rel="noopener noreferrer" className="w-40 flex justify-center">
+            <a href="https://zomato.onelink.me/xqzv/tjyw6w3v" target="_blank" rel="noopener noreferrer" className="w-40 flex justify-center">
               <img src="/Hero/zomato.png" alt="Zomato" className="w-full h-8 object-contain" />
             </a>
           </div>

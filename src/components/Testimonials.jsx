@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { motion, useAnimation, useMotionValue } from 'framer-motion';
 
 const testimonials = [
   {
@@ -66,125 +67,64 @@ const testimonials = [
   },
 ];
 
-const SCROLL_SPEED_PX_PER_SEC = 40; // Adjust this value for desired speed
+const SCROLL_SPEED = 1; // Pixels per frame for smooth scrolling
 
 const Testimonials = () => {
-  const [translateX, setTranslateX] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [currentTranslate, setCurrentTranslate] = useState(0);
-  const [isAnimating, setIsAnimating] = useState(true);
-  const containerRef = useRef(null);
-  const animationRef = useRef(null);
-  const lastTimestampRef = useRef(null);
-  const testimonialsSetRef = useRef(null);
   const [setWidth, setSetWidth] = useState(0);
+  const controls = useAnimation();
+  const x = useMotionValue(0);
+  const containerRef = useRef(null);
+  const testimonialsSetRef = useRef(null);
 
   // Measure the width of one set of testimonials
   useEffect(() => {
-    if (testimonialsSetRef.current) {
-      setSetWidth(testimonialsSetRef.current.offsetWidth);
-    }
+    const measure = () => {
+      if (testimonialsSetRef.current) {
+        setSetWidth(testimonialsSetRef.current.offsetWidth);
+      }
+    };
+    measure();
+    window.addEventListener('resize', measure);
+    return () => window.removeEventListener('resize', measure);
   }, []);
 
-  // Infinite auto-scroll animation
+  // Infinite scroll animation
   useEffect(() => {
-    if (!isDragging && isAnimating && setWidth > 0) {
-      const animate = (timestamp) => {
-        if (!lastTimestampRef.current) lastTimestampRef.current = timestamp;
-        const elapsed = timestamp - lastTimestampRef.current;
-        lastTimestampRef.current = timestamp;
-        setTranslateX(prev => {
-          let next = prev - (SCROLL_SPEED_PX_PER_SEC * elapsed) / 1000;
-          // Reset when scrolled past one set
-          if (Math.abs(next) >= setWidth) {
-            next += setWidth;
-          }
-          return next;
-        });
-        animationRef.current = requestAnimationFrame(animate);
-      };
-      animationRef.current = requestAnimationFrame(animate);
-    }
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
+    if (setWidth === 0) return;
+
+    const animate = async () => {
+      await controls.start({
+        x: -setWidth,
+        transition: {
+          x: {
+            repeat: Infinity,
+            repeatType: 'loop',
+            duration: setWidth / SCROLL_SPEED / 60, // Adjusted for 60fps
+            ease: 'linear',
+          },
+        },
+      });
+    };
+
+    animate();
+
+    return () => controls.stop();
+  }, [setWidth, controls]);
+
+  // Sync motion value with animation
+  useEffect(() => {
+    const unsubscribe = x.onChange((value) => {
+      if (setWidth > 0) {
+        // Reset x to create seamless loop
+        if (value <= -setWidth) {
+          x.set(value + setWidth);
+        } else if (value >= 0) {
+          x.set(value - setWidth);
+        }
       }
-      lastTimestampRef.current = null;
-    };
-  }, [isDragging, isAnimating, setWidth]);
-
-  const handleStart = (clientX) => {
-    setIsDragging(true);
-    setIsAnimating(false);
-    setStartX(clientX);
-    setCurrentTranslate(translateX);
-    if (animationRef.current) {
-      cancelAnimationFrame(animationRef.current);
-    }
-    lastTimestampRef.current = null;
-  };
-
-  const handleMove = (clientX) => {
-    if (!isDragging) return;
-    const deltaX = clientX - startX;
-    let next = currentTranslate + deltaX;
-    // Infinite drag: wrap around
-    if (setWidth > 0) {
-      if (next <= -setWidth) next += setWidth;
-      if (next > 0) next -= setWidth;
-    }
-    setTranslateX(next);
-  };
-
-  const handleEnd = () => {
-    setIsDragging(false);
-    setTimeout(() => {
-      setIsAnimating(true);
-    }, 500);
-  };
-
-  // Mouse events
-  const handleMouseDown = (e) => {
-    handleStart(e.clientX);
-  };
-
-  const handleMouseMove = (e) => {
-    handleMove(e.clientX);
-  };
-
-  const handleMouseUp = () => {
-    handleEnd();
-  };
-
-  // Touch events
-  const handleTouchStart = (e) => {
-    handleStart(e.touches[0].clientX);
-  };
-
-  const handleTouchMove = (e) => {
-    handleMove(e.touches[0].clientX);
-  };
-
-  const handleTouchEnd = () => {
-    handleEnd();
-  };
-
-  // Global mouse events
-  useEffect(() => {
-    if (isDragging) {
-      document.addEventListener('mousemove', handleMouseMove);
-      document.addEventListener('mouseup', handleMouseUp);
-      document.addEventListener('touchmove', handleTouchMove);
-      document.addEventListener('touchend', handleTouchEnd);
-    }
-    return () => {
-      document.removeEventListener('mousemove', handleMouseMove);
-      document.removeEventListener('mouseup', handleMouseUp);
-      document.removeEventListener('touchmove', handleTouchMove);
-      document.removeEventListener('touchend', handleTouchEnd);
-    };
-  }, [isDragging, startX, currentTranslate]);
+    });
+    return () => unsubscribe();
+  }, [x, setWidth]);
 
   return (
     <div
@@ -200,20 +140,35 @@ const Testimonials = () => {
         <h2 className="text-4xl md:text-7xl font-bold text-gray-900 mb-2">Customers Say</h2>
         <div className="text-xl text-purple-700 font-medium mb-8">Real Feedback From Real Customers</div>
       </div>
-      
       {/* Carousel */}
-      <div className="mb-6 overflow-hidden">
-        <div
+      <div className="mb-6 overflow-hidden select-none touch-pan-y">
+        <motion.div
           ref={containerRef}
-          className="flex gap-6 w-full cursor-grab active:cursor-grabbing select-none"
-          style={{
-            transform: `translateX(${translateX}px)`,
-            transition: isDragging ? 'none' : 'transform 0.3s ease-out',
+          className="flex gap-6 w-full cursor-grab active:cursor-grabbing"
+          animate={controls}
+          style={{ x }}
+          drag="x"
+          dragConstraints={{ left: -setWidth, right: 0 }}
+          dragElastic={0.1}
+          dragMomentum={true}
+          onDragStart={() => controls.stop()}
+          onDragEnd={() => {
+            if (setWidth > 0) {
+              controls.start({
+                x: -setWidth,
+                transition: {
+                  x: {
+                    repeat: Infinity,
+                    repeatType: 'loop',
+                    duration: setWidth / SCROLL_SPEED / 60,
+                    ease: 'linear',
+                  },
+                },
+              });
+            }
           }}
-          onMouseDown={handleMouseDown}
-          onTouchStart={handleTouchStart}
         >
-          {/* One set for measuring width */}
+          {/* First set for measuring width */}
           <div ref={testimonialsSetRef} className="flex gap-6">
             {testimonials.map((t, idx) => (
               <div
@@ -222,21 +177,29 @@ const Testimonials = () => {
               >
                 <div className="mb-6 text-gray-800 text-base">{t.text}</div>
                 <div className="flex items-center gap-3">
-                  <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full object-cover border-2 border-white shadow" />
+                  <img
+                    src={t.avatar}
+                    alt={t.name}
+                    className="w-12 h-12 rounded-full object-cover border-2 border-white shadow"
+                    draggable={false}
+                  />
                   <div>
                     <div className="font-semibold text-gray-900">{t.name}</div>
                     <div className="text-xs text-gray-500 italic">{t.role}</div>
                   </div>
                   <div className="ml-auto flex items-center">
-                    {Array.from({ length: t.stars }).map((_, i) => (
-                      <span key={i} className="text-orange-400 text-lg">&#9733;</span>
+                    {[...Array(Math.floor(t.stars))].map((_, i) => (
+                      <span key={i} className="text-orange-400 text-lg">★</span>
                     ))}
+                    {t.stars % 1 !== 0 && (
+                      <span className="text-orange-400 text-lg">½</span>
+                    )}
                   </div>
                 </div>
               </div>
             ))}
           </div>
-          {/* Duplicated sets for infinite scroll */}
+          {/* Duplicated set for infinite scroll */}
           <div className="flex gap-6">
             {testimonials.map((t, idx) => (
               <div
@@ -245,24 +208,31 @@ const Testimonials = () => {
               >
                 <div className="mb-6 text-gray-800 text-base">{t.text}</div>
                 <div className="flex items-center gap-3">
-                  <img src={t.avatar} alt={t.name} className="w-12 h-12 rounded-full object-cover border-2 border-white shadow" />
+                  <img
+                    src={t.avatar}
+                    alt={t.name}
+                    className="w-12 h-12 rounded-full object-cover border-2 border-white shadow"
+                    draggable={false}
+                  />
                   <div>
                     <div className="font-semibold text-gray-900">{t.name}</div>
                     <div className="text-xs text-gray-500 italic">{t.role}</div>
                   </div>
                   <div className="ml-auto flex items-center">
-                    {Array.from({ length: t.stars }).map((_, i) => (
-                      <span key={i} className="text-orange-400 text-lg">&#9733;</span>
+                    {[...Array(Math.floor(t.stars))].map((_, i) => (
+                      <span key={i} className="text-orange-400 text-lg">★</span>
                     ))}
+                    {t.stars % 1 !== 0 && (
+                      <span className="text-orange-400 text-lg">½</span>
+                    )}
                   </div>
                 </div>
               </div>
             ))}
           </div>
-        </div>
+        </motion.div>
       </div>
-
-      {/* More Review Button outside the cards */}
+      {/* More Review Button */}
       <div className="w-full flex justify-center mb-6">
         <a
           href="https://www.google.com/search?client=mobilesearchapp&sca_esv=a3e392cc0b6211b6&channel=iss&cs=1&hl=en_GB&rlz=1MDAPLA_en-GB__1122__1123&v=374.0.773146746&sxsrf=AE3TifNKTpS-LVY5AEdKsTAkkInL5VB8jw:1752471021920&si=AMgyJEtREmoPL4P1I5IDCfuA8gybfVI2d5Uj7QMwYCZHKDZ-EwQNNh3kLC0Z21JhPBb8gF__ledPAqr9Cf-UFePEIeMp1rFDS5QLj9yWY_bsxsAD1V97Y8TjJYEpxlTURBjcXdB0NIeSWggmQGYfZg2Gd6z-ndsUXg%3D%3D&q=Jaunpurs+sweets+and+Restaurant+Reviews&sa=X&ved=2ahUKEwj5mvalz7uOAxX1ZvUHHeXoJVYQ0bkNegQIQhAD&biw=1699&bih=804&dpr=1.5"
@@ -273,12 +243,10 @@ const Testimonials = () => {
           More Review
         </a>
       </div>
-      
-      {/* Line below carousel */}
+      {/* Gradient Line */}
       <div className="w-full flex justify-center">
         <div className="h-2 w-40 rounded-full bg-gradient-to-r from-orange-400 via-purple-400 to-orange-400"></div>
       </div>
-      
       <style>
         {`
           @media (min-width: 1024px) {
@@ -295,6 +263,9 @@ const Testimonials = () => {
             .flex-shrink-0 {
               width: 90vw !important;
             }
+          }
+          .touch-pan-y {
+            touch-action: pan-y;
           }
         `}
       </style>
