@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Copy, Eye, X, Check, Calendar, User, Phone, Mail, Globe, FileImage } from 'lucide-react';
+import { Copy, X, Check, Calendar, User, Phone, Mail, Globe } from 'lucide-react';
 import AdminHeader from './AdminHeader';
 import AdminSidebar from './AdminSidebar';
 
-const BACKEND_URL = import.meta.env.REACT_APP_API_URL || 'http://localhost:5000';
+// Use REACT_APP_API_URL from .env, fallback to deployed backend if not set
+const BACKEND_URL =
+  typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.REACT_APP_API_URL
+    ? import.meta.env.REACT_APP_API_URL
+    : 'https://jaunpurs-be.vercel.app';
 
 // Enhanced Card Component
 const DataCard = ({ children, className = "" }) => (
@@ -38,39 +42,29 @@ const CopyButton = ({ text, label }) => {
   );
 };
 
-// Image Modal Component
-const ImageModal = ({ src, alt, onClose }) => (
-  <div className="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-50 p-4">
-    <div className="relative max-w-4xl max-h-full">
-      <button
-        onClick={onClose}
-        className="absolute -top-10 right-0 text-white hover:text-gray-300 transition-colors"
-      >
-        <X size={24} />
-      </button>
-      <img
-        src={src}
-        alt={alt}
-        className="max-w-full max-h-[70vh] object-contain rounded-xl border-4 border-white shadow-lg"
-      />
-      <div className="absolute bottom-4 left-4 right-4 bg-black bg-opacity-60 text-white p-2 rounded text-sm">
-        {alt}
-      </div>
-    </div>
-  </div>
-);
-
 const AdminPortal = ({ onLogout, username = 'manas' }) => {
   const [enquiries, setEnquiries] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [selectedImage, setSelectedImage] = useState(null);
+  const [error, setError] = useState('');
 
   useEffect(() => {
     setLoading(true);
+    setError('');
     fetch(`${BACKEND_URL}/api/admin/enquiries`)
-      .then(res => res.ok ? res.json() : [])
+      .then(async res => {
+        if (!res.ok) {
+          const text = await res.text();
+          setError(`Failed to fetch enquiries: ${res.status} ${text || res.statusText}`);
+          return [];
+        }
+        return res.json();
+      })
       .then(data => Array.isArray(data) ? data : [])
-      .catch(() => [])
+      .catch(err => {
+        setError('Network error or server unavailable.');
+        console.error('AdminPortal fetch error:', err);
+        return [];
+      })
       .then((enquiryData) => {
         setEnquiries(enquiryData);
         setLoading(false);
@@ -97,7 +91,9 @@ const AdminPortal = ({ onLogout, username = 'manas' }) => {
         </div>
       </DataCard>
       <DataCard className="flex items-center gap-4 p-6">
-        <FileImage className="text-green-600" size={32} />
+        <div className="text-green-600" size={32}>
+          <Calendar className="text-green-600" size={32} />
+        </div>
         <div>
           <p className="text-sm text-gray-500 font-medium">Total Enquiries</p>
           <p className="text-2xl font-bold text-green-700">{enquiries.length}</p>
@@ -111,7 +107,7 @@ const AdminPortal = ({ onLogout, username = 'manas' }) => {
       <div className="p-6">
         <div className="flex items-center justify-between mb-8">
           <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-            <FileImage className="text-green-600" size={28} />
+            <Calendar className="text-green-600" size={28} />
             Enquiry Submissions
           </h2>
           <div className="text-base text-gray-500 font-medium">
@@ -163,37 +159,6 @@ const AdminPortal = ({ onLogout, username = 'manas' }) => {
                     <p className="text-lg text-gray-900">{new Date(enquiry.createdAt).toLocaleString()}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <FileImage className="text-gray-400" size={18} />
-                  <div>
-                    <p className="text-xs font-medium text-gray-500">Image</p>
-                    {enquiry.fileName ? (
-                      <div className="flex items-center gap-2 mt-1">
-                        <img
-                          src={`${BACKEND_URL}/api/admin/enquiry/image/${enquiry._id}`}
-                          alt={enquiry.fileName}
-                          className="w-16 h-16 object-cover rounded-lg border cursor-pointer hover:opacity-80 transition-opacity"
-                          onClick={() => setSelectedImage({
-                            src: `${BACKEND_URL}/api/admin/enquiry/image/${enquiry._id}`,
-                            alt: enquiry.fileName
-                          })}
-                        />
-                        <button
-                          onClick={() => setSelectedImage({
-                            src: `${BACKEND_URL}/api/admin/enquiry/image/${enquiry._id}`,
-                            alt: enquiry.fileName
-                          })}
-                          className="flex items-center gap-1 px-2 py-1 bg-green-50 hover:bg-green-100 text-green-700 rounded-md transition-colors text-sm"
-                        >
-                          <Eye size={12} />
-                          View
-                        </button>
-                      </div>
-                    ) : (
-                      <span className="text-gray-400 text-sm">No image</span>
-                    )}
-                  </div>
-                </div>
               </div>
               <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-100">
                 <p className="text-xs font-medium text-gray-500 mb-2">Message</p>
@@ -204,7 +169,7 @@ const AdminPortal = ({ onLogout, username = 'manas' }) => {
         </div>
         {enquiries.length === 0 && (
           <div className="text-center py-12 text-gray-500">
-            <FileImage size={48} className="mx-auto mb-4 text-gray-300" />
+            <Calendar size={48} className="mx-auto mb-4 text-gray-300" />
             <p>No enquiry submissions found</p>
           </div>
         )}
@@ -237,6 +202,18 @@ const AdminPortal = ({ onLogout, username = 'manas' }) => {
                       <p className="text-gray-600 text-lg font-medium">Loading enquiries...</p>
                     </div>
                   </DataCard>
+                ) : error ? (
+                  <DataCard className="p-12">
+                    <div className="text-center text-red-600">
+                      <div className="mb-4">
+                        <svg className="mx-auto h-12 w-12 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" />
+                        </svg>
+                      </div>
+                      <p className="text-lg font-bold">Error loading enquiries</p>
+                      <p className="mt-2 text-base">{error}</p>
+                    </div>
+                  </DataCard>
                 ) : (
                   <>
                     <SummaryCards />
@@ -254,14 +231,6 @@ const AdminPortal = ({ onLogout, username = 'manas' }) => {
           </footer>
         </div>
       </div>
-      {/* Image Modal */}
-      {selectedImage && (
-        <ImageModal
-          src={selectedImage.src}
-          alt={selectedImage.alt}
-          onClose={() => setSelectedImage(null)}
-        />
-      )}
     </div>
   );
 };

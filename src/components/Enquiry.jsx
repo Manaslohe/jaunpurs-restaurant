@@ -3,9 +3,9 @@ import React, { useState, useEffect } from 'react';
 // Fix: Use import.meta.env for Vite, fallback to localhost if not set.
 // Remove all usage of process.env in browser code.
 const API_URL =
-  typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.VITE_API_URL
-    ? import.meta.env.VITE_API_URL
-    : 'http://localhost:5000';
+  typeof import.meta !== 'undefined' && import.meta.env && import.meta.env.REACT_APP_API_URL
+    ? import.meta.env.REACT_APP_API_URL
+    : 'https://jaunpurs-be.vercel.app';
 
 function EnquiryPopup({ asForm = false }) {
   // Show popup only once per browser session
