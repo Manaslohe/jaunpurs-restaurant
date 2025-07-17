@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import '@fontsource/montserrat/700.css';
 import { motion } from 'framer-motion';
 import EnquiryPopup from './Enquiry';
-import { FiCopy } from 'react-icons/fi'; // Import copy icon
+import { FiCopy, FiArrowLeft } from 'react-icons/fi'; // Added FiArrowLeft
 
 const headingVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -36,25 +36,24 @@ const Contact = () => {
 
   return (
     <div
-      className="min-h-screen w-full flex flex-col font-inter"
+      className="min-h-screen h-screen w-full flex flex-col font-inter overflow-y-auto"
       style={{
         backgroundImage: "url('/contact.png')",
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-        backgroundPosition: 'center'
+        backgroundPosition: 'center',
+        backgroundAttachment: 'fixed'
       }}
     >
       {/* Back Button */}
       <div className="pt-4 pl-4">
         <button
-          className="focus:outline-none transition-transform hover:scale-105"
+          className="flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white rounded-full px-4 py-2 md:px-6 md:py-2 shadow transition-all duration-200 focus:outline-none hover:scale-105 active:scale-95"
           onClick={() => navigate('/')}
+          aria-label="Go back"
         >
-          <img
-            src="/back.png"
-            alt="Back"
-            className="w-14 h-6 opacity-90 hover:opacity-100 transition"
-          />
+          <FiArrowLeft size={24} className="md:size-6 size-5" />
+          <span className="hidden md:inline text-base md:text-lg font-semibold">Back</span>
         </button>
       </div>
       {/* Heading */}
