@@ -1,9 +1,12 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useNavigate } from 'react-router-dom';
 import '@fontsource/montserrat/700.css';
 import { motion } from 'framer-motion';
-import EnquiryPopup from './Enquiry';
+import EnquiryPopup from './components/Enquiry';
 import { FiCopy } from 'react-icons/fi'; // Import copy icon
+import LandingPage from './components/LandingPage';
+import Contact from './components/Contact';
+import Admin from './components/admin/Admin';
 
 const headingVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -21,6 +24,18 @@ const rightVariants = {
   hidden: { opacity: 0, x: 40 },
   visible: { opacity: 1, x: 0, transition: { duration: 0.7, delay: 0.6, ease: [0.22, 1, 0.36, 1] } }
 };
+
+function App() {
+  return (
+    <Router>
+      <Routes>
+        <Route path="/" element={<LandingPage />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="/admin" element={<Admin />} />
+      </Routes>
+    </Router>
+  );
+}
 
 const Contact = () => {
   const navigate = useNavigate();
@@ -161,6 +176,6 @@ const Contact = () => {
       </div>
     </div>
   );
-};
+}
 
-export default Contact;
+export default App;

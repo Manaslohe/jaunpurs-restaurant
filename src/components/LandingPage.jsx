@@ -5,6 +5,7 @@ import Categories from './Categories';
 import Gallery from './Gallery';
 import Testimonials from './Testimonials';
 import Footer from './Footer';
+import EnquiryPopup from './Enquiry'; // Import EnquiryPopup
 
 function LandingPage() {
   const categoriesRef = useRef();
@@ -65,6 +66,8 @@ function LandingPage() {
 
   return (
     <div className="w-full min-h-screen flex flex-col">
+      {/* Enquiry Popup overlays everything */}
+      <EnquiryPopup />
       {/* Left vertical sidebar for all except Footer */}
       <div
         className="hidden md:flex fixed top-0 left-0 h-full flex-col items-center justify-between"
