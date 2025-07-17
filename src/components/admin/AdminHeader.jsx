@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-const SIDEBAR_BG = 'bg-[#4D124A]/90';
+// Match sidebar theme
+const HEADER_BG = 'bg-white';
+const HEADER_BORDER = 'border-b border-gray-200';
+const BRAND_COLOR = '#B32AAC';
+const ORANGE_COLOR = '#E78D3F';
 
 const AdminHeader = ({ username = 'manas', onLogout, onOpenSidebar }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -21,12 +25,12 @@ const AdminHeader = ({ username = 'manas', onLogout, onOpenSidebar }) => {
 
   return (
     <header
-      className={`flex flex-row items-center justify-between gap-2 px-3 md:px-6 py-3 md:py-4 
-        ${SIDEBAR_BG} border-b border-[#E78D3F] sticky top-0 z-20 shadow-sm`}
+      className={`flex flex-row items-center justify-between gap-2 px-4 md:px-6 py-4 ${HEADER_BG} ${HEADER_BORDER} top-0 z-20`}
+      style={{ boxShadow: 'none' }}
     >
       {/* Hamburger for mobile */}
       <button
-        className="md:hidden flex items-center justify-center w-10 h-10 rounded-full bg-black text-[#E78D3F] font-bold text-xl shadow-md border-2 border-[#E78D3F] hover:scale-105 transition"
+        className="md:hidden flex items-center justify-center w-10 h-10 rounded-full bg-[#B32AAC] text-white font-bold text-xl shadow-sm border-2 border-[#B32AAC] hover:scale-105 transition"
         onClick={onOpenSidebar}
         aria-label="Open sidebar"
         type="button"
@@ -37,15 +41,17 @@ const AdminHeader = ({ username = 'manas', onLogout, onOpenSidebar }) => {
           <line x1="5" y1="17" x2="19" y2="17" strokeLinecap="round" />
         </svg>
       </button>
+      {/* Brand */}
       <div
         className="font-bold text-lg md:text-xl flex-1 text-center md:text-left"
-        style={{ fontFamily: 'Krona One, sans-serif', color: '#E78D3F' }}
+        style={{ fontFamily: 'Krona One, sans-serif', color: BRAND_COLOR, letterSpacing: '1px' }}
       >
         Admin Portal
       </div>
+      {/* User avatar and dropdown */}
       <div className="relative flex items-center gap-2 md:gap-4" ref={dropdownRef}>
         <button
-          className="flex items-center justify-center w-10 h-10 rounded-full bg-black text-[#E78D3F] font-bold text-lg shadow-md border-2 border-[#E78D3F] hover:scale-105 transition"
+          className="flex items-center justify-center w-10 h-10 rounded-full bg-[#B32AAC] text-white font-bold text-lg shadow-sm border-2 border-[#B32AAC] hover:scale-105 transition"
           onClick={() => setDropdownOpen((v) => !v)}
           aria-label="User menu"
           type="button"
@@ -54,16 +60,16 @@ const AdminHeader = ({ username = 'manas', onLogout, onOpenSidebar }) => {
         </button>
         {/* Dropdown */}
         {dropdownOpen && (
-          <div className="absolute right-0 top-12 mt-2 w-40 bg-white rounded-xl shadow-lg border border-[#E78D3F] z-30 animate-fade-in">
+          <div className="absolute right-0 top-12 mt-2 w-44 bg-white rounded-xl shadow-lg border border-[#B32AAC] z-30 animate-fade-in">
             <button
-              className="w-full flex items-center gap-2 px-4 py-3 text-black hover:bg-[#FBE6B7] rounded-xl font-semibold transition text-left"
+              className="w-full flex items-center gap-2 px-4 py-3 text-[#B32AAC] hover:bg-[#FBE6B7] rounded-xl font-semibold transition text-left"
               style={{ fontFamily: 'Krona One, sans-serif' }}
               onClick={() => {
                 setDropdownOpen(false);
                 if (typeof onLogout === 'function') onLogout();
               }}
             >
-              <svg width="18" height="18" fill="none" stroke="#111" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="inline-block">
+              <svg width="18" height="18" fill="none" stroke={BRAND_COLOR} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="inline-block">
                 <path d="M9 1v16M1 9h16" />
               </svg>
               Log Out

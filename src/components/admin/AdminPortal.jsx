@@ -11,7 +11,7 @@ const BACKEND_URL =
 
 // Enhanced Card Component
 const DataCard = ({ children, className = "" }) => (
-  <div className={`bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-shadow duration-300 border border-gray-100 ${className}`}>
+  <div className={`bg-white rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 ${className}`}>
     {children}
   </div>
 );
@@ -33,7 +33,7 @@ const CopyButton = ({ text, label }) => {
   return (
     <button
       onClick={handleCopy}
-      className="inline-flex items-center gap-1 px-2 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 rounded-md transition-colors duration-200 text-sm"
+      className="inline-flex items-center gap-1 px-2 py-1 bg-gray-50 hover:bg-gray-100 text-gray-600 rounded text-xs font-medium transition-colors duration-150"
       title={`Copy ${label}`}
     >
       {copied ? <Check size={12} /> : <Copy size={12} />}
@@ -46,6 +46,7 @@ const AdminPortal = ({ onLogout, username = 'manas' }) => {
   const [enquiries, setEnquiries] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false); // <-- add sidebar state
 
   useEffect(() => {
     setLoading(true);
@@ -83,94 +84,106 @@ const AdminPortal = ({ onLogout, username = 'manas' }) => {
   // Summary Cards Component
   const SummaryCards = () => (
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
-      <DataCard className="flex items-center gap-4 p-6">
-        <Calendar className="text-blue-600" size={32} />
-        <div>
-          <p className="text-sm text-gray-500 font-medium">Today's Enquiries</p>
-          <p className="text-2xl font-bold text-blue-700">{todayCount}</p>
+      <DataCard className="p-6">
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-blue-50 rounded-lg">
+            <Calendar className="text-blue-600" size={24} />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 font-medium">Today's Enquiries</p>
+            <p className="text-2xl font-bold text-gray-900">{todayCount}</p>
+          </div>
         </div>
       </DataCard>
-      <DataCard className="flex items-center gap-4 p-6">
-        <div className="text-green-600" size={32}>
-          <Calendar className="text-green-600" size={32} />
-        </div>
-        <div>
-          <p className="text-sm text-gray-500 font-medium">Total Enquiries</p>
-          <p className="text-2xl font-bold text-green-700">{enquiries.length}</p>
+      <DataCard className="p-6">
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-green-50 rounded-lg">
+            <Calendar className="text-green-600" size={24} />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 font-medium">Total Enquiries</p>
+            <p className="text-2xl font-bold text-gray-900">{enquiries.length}</p>
+          </div>
         </div>
       </DataCard>
     </div>
   );
 
   const EnquiryTable = () => (
-    <DataCard className="p-0">
+    <DataCard>
       <div className="p-6">
-        <div className="flex items-center justify-between mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 flex items-center gap-3">
-            <Calendar className="text-green-600" size={28} />
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-semibold text-gray-900">
             Enquiry Submissions
           </h2>
-          <div className="text-base text-gray-500 font-medium">
-            Total: <span className="font-bold text-green-700">{enquiries.length}</span>
+          <div className="text-sm text-gray-500">
+            Total: <span className="font-semibold text-gray-900">{enquiries.length}</span>
           </div>
         </div>
-        <div className="space-y-6">
+        
+        <div className="space-y-4">
           {enquiries.map((enquiry) => (
-            <div key={enquiry._id} className="border border-gray-200 rounded-xl p-5 bg-white hover:border-green-400 transition-colors shadow-sm hover:shadow-lg">
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-4">
-                <div className="flex items-center gap-3">
-                  <User className="text-gray-400" size={18} />
-                  <div>
-                    <p className="text-xs font-medium text-gray-500">Name</p>
-                    <p className="text-lg text-gray-900 font-semibold">{enquiry.name}</p>
+            <div key={enquiry._id} className="border border-gray-200 rounded-lg p-6 bg-gray-50 hover:bg-gray-100 transition-colors duration-150">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-4">
+                <div className="flex items-start gap-3">
+                  <User className="text-gray-400 mt-1" size={16} />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Name</p>
+                    <p className="text-sm text-gray-900 font-medium mt-1">{enquiry.name}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Phone className="text-gray-400" size={18} />
-                  <div>
-                    <p className="text-xs font-medium text-gray-500">Phone</p>
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg text-gray-900">{enquiry.phone}</span>
+                
+                <div className="flex items-start gap-3">
+                  <Phone className="text-gray-400 mt-1" size={16} />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Phone</p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-sm text-gray-900">{enquiry.phone}</span>
                       <CopyButton text={enquiry.phone} label="phone number" />
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Mail className="text-gray-400" size={18} />
-                  <div>
-                    <p className="text-xs font-medium text-gray-500">Email</p>
-                    <div className="flex items-center gap-2">
-                      <span className="text-lg text-gray-900">{enquiry.email}</span>
+                
+                <div className="flex items-start gap-3">
+                  <Mail className="text-gray-400 mt-1" size={16} />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Email</p>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-sm text-gray-900 break-all">{enquiry.email}</span>
                       <CopyButton text={enquiry.email} label="email" />
                     </div>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Globe className="text-gray-400" size={18} />
-                  <div>
-                    <p className="text-xs font-medium text-gray-500">Country</p>
-                    <p className="text-lg text-gray-900">{enquiry.country}</p>
+                
+                <div className="flex items-start gap-3">
+                  <Globe className="text-gray-400 mt-1" size={16} />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Country</p>
+                    <p className="text-sm text-gray-900 mt-1">{enquiry.country}</p>
                   </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <Calendar className="text-gray-400" size={18} />
-                  <div>
-                    <p className="text-xs font-medium text-gray-500">Date</p>
-                    <p className="text-lg text-gray-900">{new Date(enquiry.createdAt).toLocaleString()}</p>
+                
+                <div className="flex items-start gap-3">
+                  <Calendar className="text-gray-400 mt-1" size={16} />
+                  <div className="min-w-0 flex-1">
+                    <p className="text-xs font-medium text-gray-500 uppercase tracking-wide">Date</p>
+                    <p className="text-sm text-gray-900 mt-1">{new Date(enquiry.createdAt).toLocaleString()}</p>
                   </div>
                 </div>
               </div>
-              <div className="mt-4 p-4 bg-gray-50 rounded-lg border border-gray-100">
-                <p className="text-xs font-medium text-gray-500 mb-2">Message</p>
-                <p className="text-base text-gray-900 leading-relaxed">{enquiry.message}</p>
+              
+              <div className="mt-4 p-4 bg-white rounded-lg border border-gray-200">
+                <p className="text-xs font-medium text-gray-500 uppercase tracking-wide mb-2">Message</p>
+                <p className="text-sm text-gray-900 leading-relaxed">{enquiry.message}</p>
               </div>
             </div>
           ))}
         </div>
+        
         {enquiries.length === 0 && (
           <div className="text-center py-12 text-gray-500">
             <Calendar size={48} className="mx-auto mb-4 text-gray-300" />
-            <p>No enquiry submissions found</p>
+            <p className="text-sm">No enquiry submissions found</p>
           </div>
         )}
       </div>
@@ -178,10 +191,18 @@ const AdminPortal = ({ onLogout, username = 'manas' }) => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#E9C77F] to-[#FBE6B7] transition-all duration-300">
+    <div className="min-h-screen bg-gray-50">
       <div className="flex">
         {/* Sidebar */}
-        <AdminSidebar />
+        <AdminSidebar
+          sidebarOpen={sidebarOpen}
+          onClose={() => setSidebarOpen(false)}
+          onLogout={() => { // <-- pass onLogout to sidebar
+            setSidebarOpen(false);
+            if (typeof onLogout === 'function') onLogout();
+          }}
+        />
+        
         {/* Main layout column */}
         <div className="flex-1 flex flex-col min-h-screen md:ml-64">
           {/* Header */}
@@ -189,40 +210,41 @@ const AdminPortal = ({ onLogout, username = 'manas' }) => {
             <AdminHeader
               username={username}
               onLogout={onLogout}
+              onOpenSidebar={() => setSidebarOpen(true)} // <-- pass open handler
             />
           </div>
+          
           {/* Content */}
-          <main className="flex-1 p-4 md:p-8 bg-gray-50 overflow-y-auto mt-[64px] md:mt-[72px]">
-            <div className="max-w-5xl mx-auto">
-              <div className="transition-all duration-300">
-                {loading ? (
-                  <DataCard className="p-12">
-                    <div className="text-center">
-                      <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600 mx-auto mb-4"></div>
-                      <p className="text-gray-600 text-lg font-medium">Loading enquiries...</p>
+          <main className="flex-1 p-6 md:p-8 overflow-y-auto mt-[64px] md:mt-[72px]">
+            <div className="max-w-6xl mx-auto">
+              {loading ? (
+                <DataCard className="p-12">
+                  <div className="text-center">
+                    <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 border-t-blue-600 mx-auto mb-4"></div>
+                    <p className="text-gray-600 text-sm font-medium">Loading enquiries...</p>
+                  </div>
+                </DataCard>
+              ) : error ? (
+                <DataCard className="p-12">
+                  <div className="text-center text-red-600">
+                    <div className="mb-4">
+                      <svg className="mx-auto h-8 w-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" />
+                      </svg>
                     </div>
-                  </DataCard>
-                ) : error ? (
-                  <DataCard className="p-12">
-                    <div className="text-center text-red-600">
-                      <div className="mb-4">
-                        <svg className="mx-auto h-12 w-12 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" />
-                        </svg>
-                      </div>
-                      <p className="text-lg font-bold">Error loading enquiries</p>
-                      <p className="mt-2 text-base">{error}</p>
-                    </div>
-                  </DataCard>
-                ) : (
-                  <>
-                    <SummaryCards />
-                    <EnquiryTable />
-                  </>
-                )}
-              </div>
+                    <p className="text-sm font-semibold">Error loading enquiries</p>
+                    <p className="mt-2 text-sm text-gray-600">{error}</p>
+                  </div>
+                </DataCard>
+              ) : (
+                <>
+                  <SummaryCards />
+                  <EnquiryTable />
+                </>
+              )}
             </div>
           </main>
+          
           {/* Mobile Footer */}
           <footer className="md:hidden bg-white border-t border-gray-200 text-center py-3">
             <p className="text-xs text-gray-500">
