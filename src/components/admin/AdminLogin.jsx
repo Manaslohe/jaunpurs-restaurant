@@ -5,8 +5,8 @@ const DEFAULT_ID = 'manas';
 const DEFAULT_PASSWORD = 'manas123';
 
 // Add another login
-const SECOND_ID = 'jaunpurs';
-const SECOND_PASSWORD = 'president@123';
+const SECOND_ID = 'JaunpursAdmin';
+const SECOND_PASSWORD = 'Jaunpurs@2025';
 
 const AdminLogin = ({ onLogin }) => {
   const [id, setId] = useState('');
