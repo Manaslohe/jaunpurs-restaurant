@@ -4,6 +4,10 @@ import { Eye, EyeOff, Lock, User, Shield, AlertCircle, CheckCircle } from 'lucid
 const DEFAULT_ID = 'manas';
 const DEFAULT_PASSWORD = 'manas123';
 
+// Add another login
+const SECOND_ID = 'jaunpurs';
+const SECOND_PASSWORD = 'president@123';
+
 const AdminLogin = ({ onLogin }) => {
   const [id, setId] = useState('');
   const [password, setPassword] = useState('');
@@ -20,7 +24,10 @@ const AdminLogin = ({ onLogin }) => {
     // Simulate loading for better UX
     await new Promise(resolve => setTimeout(resolve, 1000));
 
-    if (id === DEFAULT_ID && password === DEFAULT_PASSWORD) {
+    if (
+      (id === DEFAULT_ID && password === DEFAULT_PASSWORD) ||
+      (id === SECOND_ID && password === SECOND_PASSWORD)
+    ) {
       onLogin();
     } else {
       setError('Invalid ID or password');

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Copy, X, Check, Calendar, User, Phone, Mail, Globe } from 'lucide-react';
 import AdminHeader from './AdminHeader';
 import AdminSidebar from './AdminSidebar';
+import FeedbackTable from './FeedbackTable';
 
 // Use REACT_APP_API_URL from .env, fallback to deployed backend if not set
 const BACKEND_URL =
@@ -44,9 +45,13 @@ const CopyButton = ({ text, label }) => {
 
 const AdminPortal = ({ onLogout, username = 'manas' }) => {
   const [enquiries, setEnquiries] = useState([]);
+  const [feedbacks, setFeedbacks] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [feedbackLoading, setFeedbackLoading] = useState(true);
   const [error, setError] = useState('');
-  const [sidebarOpen, setSidebarOpen] = useState(false); // <-- add sidebar state
+  const [feedbackError, setFeedbackError] = useState('');
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("enquiries");
 
   useEffect(() => {
     setLoading(true);
@@ -72,6 +77,30 @@ const AdminPortal = ({ onLogout, username = 'manas' }) => {
       });
   }, []);
 
+  useEffect(() => {
+    setFeedbackLoading(true);
+    setFeedbackError('');
+    fetch(`${BACKEND_URL}/api/admin/feedbacks`)
+      .then(async res => {
+        if (!res.ok) {
+          const text = await res.text();
+          setFeedbackError(`Failed to fetch feedbacks: ${res.status} ${text || res.statusText}`);
+          return [];
+        }
+        return res.json();
+      })
+      .then(data => Array.isArray(data) ? data : [])
+      .catch(err => {
+        setFeedbackError('Network error or server unavailable.');
+        console.error('AdminPortal feedback fetch error:', err);
+        return [];
+      })
+      .then((feedbackData) => {
+        setFeedbacks(feedbackData);
+        setFeedbackLoading(false);
+      });
+  }, []);
+
   // Calculate today's enquiries
   const todayCount = enquiries.filter(e => {
     const created = new Date(e.createdAt);
@@ -81,9 +110,18 @@ const AdminPortal = ({ onLogout, username = 'manas' }) => {
       created.getFullYear() === now.getFullYear();
   }).length;
 
+  // Calculate today's feedbacks
+  const todayFeedbackCount = feedbacks.filter(fb => {
+    const created = new Date(fb.createdAt);
+    const now = new Date();
+    return created.getDate() === now.getDate() &&
+      created.getMonth() === now.getMonth() &&
+      created.getFullYear() === now.getFullYear();
+  }).length;
+
   // Summary Cards Component
   const SummaryCards = () => (
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
       <DataCard className="p-6">
         <div className="flex items-center gap-4">
           <div className="p-3 bg-blue-50 rounded-lg">
@@ -103,6 +141,28 @@ const AdminPortal = ({ onLogout, username = 'manas' }) => {
           <div>
             <p className="text-sm text-gray-500 font-medium">Total Enquiries</p>
             <p className="text-2xl font-bold text-gray-900">{enquiries.length}</p>
+          </div>
+        </div>
+      </DataCard>
+      <DataCard className="p-6">
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-yellow-50 rounded-lg">
+            <Calendar className="text-yellow-600" size={24} />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 font-medium">Today's Feedback</p>
+            <p className="text-2xl font-bold text-gray-900">{todayFeedbackCount}</p>
+          </div>
+        </div>
+      </DataCard>
+      <DataCard className="p-6">
+        <div className="flex items-center gap-4">
+          <div className="p-3 bg-purple-50 rounded-lg">
+            <Calendar className="text-purple-600" size={24} />
+          </div>
+          <div>
+            <p className="text-sm text-gray-500 font-medium">Total Feedback</p>
+            <p className="text-2xl font-bold text-gray-900">{feedbacks.length}</p>
           </div>
         </div>
       </DataCard>
@@ -197,10 +257,12 @@ const AdminPortal = ({ onLogout, username = 'manas' }) => {
         <AdminSidebar
           sidebarOpen={sidebarOpen}
           onClose={() => setSidebarOpen(false)}
-          onLogout={() => { // <-- pass onLogout to sidebar
+          onLogout={() => {
             setSidebarOpen(false);
             if (typeof onLogout === 'function') onLogout();
           }}
+          activeTab={activeTab}
+          setActiveTab={setActiveTab}
         />
         
         {/* Main layout column */}
@@ -210,37 +272,62 @@ const AdminPortal = ({ onLogout, username = 'manas' }) => {
             <AdminHeader
               username={username}
               onLogout={onLogout}
-              onOpenSidebar={() => setSidebarOpen(true)} // <-- pass open handler
+              onOpenSidebar={() => setSidebarOpen(true)}
             />
           </div>
           
           {/* Content */}
           <main className="flex-1 p-6 md:p-8 overflow-y-auto mt-[64px] md:mt-[72px]">
             <div className="max-w-6xl mx-auto">
-              {loading ? (
-                <DataCard className="p-12">
-                  <div className="text-center">
-                    <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 border-t-blue-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600 text-sm font-medium">Loading enquiries...</p>
-                  </div>
-                </DataCard>
-              ) : error ? (
-                <DataCard className="p-12">
-                  <div className="text-center text-red-600">
-                    <div className="mb-4">
-                      <svg className="mx-auto h-8 w-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" />
-                      </svg>
+              {activeTab === "enquiries" ? (
+                loading ? (
+                  <DataCard className="p-12">
+                    <div className="text-center">
+                      <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 border-t-blue-600 mx-auto mb-4"></div>
+                      <p className="text-gray-600 text-sm font-medium">Loading enquiries...</p>
                     </div>
-                    <p className="text-sm font-semibold">Error loading enquiries</p>
-                    <p className="mt-2 text-sm text-gray-600">{error}</p>
-                  </div>
-                </DataCard>
+                  </DataCard>
+                ) : error ? (
+                  <DataCard className="p-12">
+                    <div className="text-center text-red-600">
+                      <div className="mb-4">
+                        <svg className="mx-auto h-8 w-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" />
+                        </svg>
+                      </div>
+                      <p className="text-sm font-semibold">Error loading enquiries</p>
+                      <p className="mt-2 text-sm text-gray-600">{error}</p>
+                    </div>
+                  </DataCard>
+                ) : (
+                  <>
+                    <SummaryCards />
+                    <EnquiryTable />
+                  </>
+                )
               ) : (
-                <>
-                  <SummaryCards />
-                  <EnquiryTable />
-                </>
+                feedbackLoading ? (
+                  <DataCard className="p-12">
+                    <div className="text-center">
+                      <div className="animate-spin rounded-full h-8 w-8 border-2 border-gray-300 border-t-green-600 mx-auto mb-4"></div>
+                      <p className="text-gray-600 text-sm font-medium">Loading feedback...</p>
+                    </div>
+                  </DataCard>
+                ) : feedbackError ? (
+                  <DataCard className="p-12">
+                    <div className="text-center text-red-600">
+                      <div className="mb-4">
+                        <svg className="mx-auto h-8 w-8 text-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12c0 4.97-4.03 9-9 9s-9-4.03-9-9 4.03-9 9-9 9 4.03 9 9z" />
+                        </svg>
+                      </div>
+                      <p className="text-sm font-semibold">Error loading feedback</p>
+                      <p className="mt-2 text-sm text-gray-600">{feedbackError}</p>
+                    </div>
+                  </DataCard>
+                ) : (
+                  <FeedbackTable feedbacks={feedbacks} />
+                )
               )}
             </div>
           </main>

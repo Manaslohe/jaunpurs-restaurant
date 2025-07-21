@@ -1,10 +1,12 @@
 import React from 'react';
-import { X, Mail, LogOut } from 'lucide-react';
+import { X, Mail, LogOut, MessageSquare } from 'lucide-react';
 
 const AdminSidebar = ({
   sidebarOpen = false,
   onClose = () => {},
   onLogout = () => {}, // <-- add onLogout prop
+  activeTab = "enquiries",
+  setActiveTab = () => {},
 }) => {
   const SidebarContent = (
     <>
@@ -32,13 +34,26 @@ const AdminSidebar = ({
         </div>
         
         {/* Enquiries */}
-        <a
-          href="#"
-          className="flex items-center px-3 py-2.5 text-white bg-[#3B0A3B] rounded-lg transition-colors duration-200 group"
+        <button
+          className={`flex items-center px-3 py-2.5 rounded-lg transition-colors duration-200 group w-full ${
+            activeTab === "enquiries" ? "bg-[#3B0A3B] text-white" : "bg-transparent text-[#3B0A3B] hover:bg-[#3B0A3B]/10"
+          }`}
+          onClick={() => setActiveTab("enquiries")}
         >
-          <Mail className="h-5 w-5 mr-3 text-white" />
+          <Mail className="h-5 w-5 mr-3" />
           <span className="font-medium">Enquiries</span>
-        </a>
+        </button>
+
+        {/* Feedback */}
+        <button
+          className={`flex items-center px-3 py-2.5 rounded-lg transition-colors duration-200 group w-full ${
+            activeTab === "feedback" ? "bg-[#3B0A3B] text-white" : "bg-transparent text-[#3B0A3B] hover:bg-[#3B0A3B]/10"
+          }`}
+          onClick={() => setActiveTab("feedback")}
+        >
+          <MessageSquare className="h-5 w-5 mr-3" />
+          <span className="font-medium">Feedback</span>
+        </button>
       </nav>
 
       {/* User Profile Section */}
