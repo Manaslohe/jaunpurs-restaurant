@@ -16,6 +16,23 @@ const FeedbackTable = ({ feedbacks = [] }) => (
         {feedbacks.map((fb) => (
           <div key={fb._id} className="border border-gray-100 rounded-xl p-6 bg-gradient-to-br from-white via-[#F9F6FF] to-[#FFF7F0] hover:shadow-lg transition-colors duration-150">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-4">
+              {/* Name */}
+              <div className="flex items-center gap-3">
+                <User className="text-[#3B0A3B] bg-[#F3E8FF] rounded-full p-1" size={20} />
+                <div>
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Name</p>
+                  <p className="text-base text-gray-900 font-semibold mt-1">{fb.name || "N/A"}</p>
+                </div>
+              </div>
+              {/* Mobile */}
+              <div className="flex items-center gap-3">
+                <Phone className="text-[#E78D3F] bg-orange-100 rounded-full p-1" size={20} />
+                <div>
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Mobile</p>
+                  <p className="text-base text-gray-900 font-semibold mt-1">{fb.mobile || "N/A"}</p>
+                </div>
+              </div>
+              {/* WhatsApp */}
               <div className="flex items-center gap-3">
                 <User className="text-[#B32AAC] bg-[#F3E8FF] rounded-full p-1" size={20} />
                 <div>
@@ -23,6 +40,7 @@ const FeedbackTable = ({ feedbacks = [] }) => (
                   <p className="text-base text-gray-900 font-semibold mt-1">{fb.whatsappNumber || "N/A"}</p>
                 </div>
               </div>
+              {/* Experience */}
               <div className="flex items-center gap-3">
                 <Star className="text-yellow-500 bg-yellow-100 rounded-full p-1" size={20} />
                 <div>
@@ -30,6 +48,7 @@ const FeedbackTable = ({ feedbacks = [] }) => (
                   <p className="text-base text-gray-900 mt-1">{fb.overallExperience}</p>
                 </div>
               </div>
+              {/* Food Quality */}
               <div className="flex items-center gap-3">
                 <Star className="text-orange-500 bg-orange-100 rounded-full p-1" size={20} />
                 <div>
@@ -37,6 +56,7 @@ const FeedbackTable = ({ feedbacks = [] }) => (
                   <p className="text-base text-gray-900 mt-1">{fb.foodQuality}</p>
                 </div>
               </div>
+              {/* Service & Staff */}
               <div className="flex items-center gap-3">
                 <User className="text-[#3B0A3B] bg-[#F3E8FF] rounded-full p-1" size={20} />
                 <div>
@@ -44,6 +64,7 @@ const FeedbackTable = ({ feedbacks = [] }) => (
                   <p className="text-base text-gray-900 mt-1">{fb.serviceStaff}</p>
                 </div>
               </div>
+              {/* Tried */}
               <div className="flex items-center gap-3">
                 <Phone className="text-[#E78D3F] bg-orange-100 rounded-full p-1" size={20} />
                 <div>
@@ -65,6 +86,7 @@ const FeedbackTable = ({ feedbacks = [] }) => (
                   </div>
                 </div>
               </div>
+              {/* WhatsApp Updates */}
               <div className="flex items-center gap-3">
                 <MessageSquare className="text-green-600 bg-green-100 rounded-full p-1" size={20} />
                 <div>
@@ -72,6 +94,7 @@ const FeedbackTable = ({ feedbacks = [] }) => (
                   <p className="text-base text-gray-900 mt-1">{fb.whatsappUpdates}</p>
                 </div>
               </div>
+              {/* Date */}
               <div className="flex items-center gap-3">
                 <Calendar className="text-blue-600 bg-blue-100 rounded-full p-1" size={20} />
                 <div>

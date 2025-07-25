@@ -22,6 +22,8 @@ const rightVariants = {
 const FeedbackForm = () => {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
+    name: '',
+    mobile: '',
     overallExperience: '',
     whatDidYouTry: [],
     comments: '',
@@ -35,7 +37,7 @@ const FeedbackForm = () => {
   const [submitSuccess, setSubmitSuccess] = useState('');
   const [showToast, setShowToast] = useState(false);
 
-  const totalSteps = 6;
+  const totalSteps = 7;
 
   // Animation for step transitions
   const [stepAnim, setStepAnim] = useState('fade-in');
@@ -92,6 +94,8 @@ const FeedbackForm = () => {
       setShowToast(true);
       setTimeout(() => setShowToast(false), 5000); // Show thank you popup for 5 seconds
       setFormData({
+        name: '',
+        mobile: '',
         overallExperience: '',
         whatDidYouTry: [],
         comments: '',
@@ -138,18 +142,23 @@ const FeedbackForm = () => {
   const isStepValid = () => {
     switch (currentStep) {
       case 1:
-        return !!formData.overallExperience;
+        // Name and mobile required
+        return (
+          !!formData.name.trim() &&
+          /^\d{10}$/.test(formData.mobile.trim())
+        );
       case 2:
-        return formData.whatDidYouTry.length > 0;
+        return !!formData.overallExperience;
       case 3:
-        return true;
+        return formData.whatDidYouTry.length > 0;
       case 4:
-        return !!formData.foodQuality;
+        return true;
       case 5:
-        return !!formData.serviceStaff;
+        return !!formData.foodQuality;
       case 6:
+        return !!formData.serviceStaff;
+      case 7:
         if (formData.whatsappUpdates === "Yes") {
-          // Require 10 digit valid number
           return /^\d{10}$/.test(formData.whatsappNumber.trim());
         }
         return !!formData.whatsappUpdates;
@@ -161,6 +170,53 @@ const FeedbackForm = () => {
   const renderStep = () => {
     switch(currentStep) {
       case 1:
+        return (
+          <div className="space-y-6">
+            <div>
+              <label className="text-white text-base font-medium mb-1 block">
+                Name <span className="text-orange-400">*</span>
+              </label>
+              <input
+                type="text"
+                value={formData.name}
+                onChange={e => setFormData({ ...formData, name: e.target.value })}
+                placeholder="Enter your name"
+                className={answerBox + " w-full"}
+                maxLength={50}
+                required
+              />
+              {!formData.name.trim() && (
+                <div className="text-orange-400 text-sm mt-1">Name is required.</div>
+              )}
+            </div>
+            <div>
+              <label className="text-white text-base font-medium mb-1 block">
+                Mobile Number <span className="text-orange-400">*</span>
+              </label>
+              <input
+                type="tel"
+                value={formData.mobile}
+                onChange={e => {
+                  const val = e.target.value.replace(/\D/g, '');
+                  setFormData({ ...formData, mobile: val });
+                }}
+                placeholder="Enter 10 digit mobile number"
+                className={answerBox + " w-full"}
+                maxLength={10}
+                pattern="\d{10}"
+                inputMode="numeric"
+                required
+              />
+              {formData.mobile && !/^\d{10}$/.test(formData.mobile.trim()) && (
+                <div className="text-orange-400 text-sm mt-1">Please enter a valid 10 digit number.</div>
+              )}
+              {!formData.mobile.trim() && (
+                <div className="text-orange-400 text-sm mt-1">Mobile number is required.</div>
+              )}
+            </div>
+          </div>
+        );
+      case 2:
         return (
           <div className="space-y-6">
             <div className="flex items-center gap-3 mb-6">
@@ -182,10 +238,13 @@ const FeedbackForm = () => {
                 </label>
               ))}
             </div>
+            {!formData.overallExperience && (
+              <div className="text-orange-400 text-sm mt-1">Please select your experience.</div>
+            )}
           </div>
         );
       
-      case 2:
+      case 3:
         return (
           <div className="space-y-6">
             <div className="flex items-center gap-3 mb-6">
@@ -209,7 +268,7 @@ const FeedbackForm = () => {
           </div>
         );
 
-      case 3:
+      case 4:
         return (
           <div className="space-y-6">
             <div className="flex items-center gap-3 mb-6">
@@ -229,7 +288,7 @@ const FeedbackForm = () => {
           </div>
         );
 
-      case 4:
+      case 5:
         return (
           <div className="space-y-6">
             <div className="flex items-center gap-3 mb-6">
@@ -254,7 +313,7 @@ const FeedbackForm = () => {
           </div>
         );
 
-      case 5:
+      case 6:
         return (
           <div className="space-y-6">
             <div className="flex items-center gap-3 mb-6">
@@ -279,7 +338,7 @@ const FeedbackForm = () => {
           </div>
         );
 
-      case 6:
+      case 7:
         return (
           <div className="space-y-6">
             <div className="flex items-center gap-3 mb-6">
