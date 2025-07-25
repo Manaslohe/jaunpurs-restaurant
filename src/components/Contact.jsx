@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FiCopy, FiArrowLeft, FiChevronRight, FiChevronLeft } from 'react-icons/fi';
+import { useNavigate } from 'react-router-dom';
 
 const headingVariants = {
   hidden: { opacity: 0, y: 40 },
@@ -425,6 +426,7 @@ const FeedbackForm = () => {
 const Contact = () => {
   const [copied, setCopied] = useState(false);
   const contactNumber = "8767092368";
+  const navigate = useNavigate();
 
   const handleCopy = () => {
     navigator.clipboard.writeText(contactNumber);
@@ -433,8 +435,7 @@ const Contact = () => {
   };
 
   const handleBack = () => {
-    // Navigate back functionality would go here
-    console.log('Navigate back');
+    navigate(-1);
   };
 
   return (
