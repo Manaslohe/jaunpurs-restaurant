@@ -71,12 +71,18 @@ const FeedbackForm = () => {
     setSubmitError('');
     setSubmitSuccess('');
     try {
+      // Ensure name and mobile are sent in the payload
+      const payload = {
+        ...formData,
+        name: formData.name ? formData.name.trim() : '',
+        mobile: formData.mobile ? formData.mobile.trim() : ''
+      };
       const response = await fetch(
         `${API_URL}/api/feedback`,
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
+          body: JSON.stringify(payload)
         }
       );
       if (!response.ok) {
